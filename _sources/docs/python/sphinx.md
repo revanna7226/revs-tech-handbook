@@ -91,6 +91,14 @@
 
 1. Automate Sphinx Project build and push Sphinx Project and Revs Tech Handbook to Github.
 
+   pass "true" to skip pushing the Sphinx source
+
+   :::{note}
+   :class: margin
+   pass "true" to skip pushing the Sphinx source
+   pass "false" to allow pushing the Sphinx source
+   :::
+
    ::::{tab-set}
 
    :::{tab-item} iOS/Unix based Systems
@@ -99,9 +107,17 @@
    .\publish.ps1 "Added Commands to automate build and publish" true
    ```
 
+   ```bash
+   .\publish.ps1 "Added Commands to automate build and publish" true
+   ```
+
    :::
 
    :::{tab-item} Windows
+
+   ```bash
+   .\publish.ps1 "Added Commands to automate build and publish" false
+   ```
 
    ```bash
    .\publish.ps1 "Added Commands to automate build and publish" false
