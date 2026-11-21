@@ -108,7 +108,7 @@
    ```
 
    ```bash
-   .\publish.ps1 "Added Commands to automate build and publish" true
+   .\publish.ps1 "Added Commands to automate build and publish" false
    ```
 
    :::
@@ -116,7 +116,7 @@
    :::{tab-item} Windows
 
    ```bash
-   .\publish.ps1 "Added Commands to automate build and publish" false
+   .\publish.ps1 "Added Commands to automate build and publish" true
    ```
 
    ```bash
