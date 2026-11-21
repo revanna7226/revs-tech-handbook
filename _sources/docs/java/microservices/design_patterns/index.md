@@ -2,12 +2,12 @@
 
 ```{toctree}
 :maxdepth: 4
-:hidden:
 :caption: Topics
 
 saga
 choreography
 cqrs
 
-
 ```
+
+[Java Techie Microservices Design Patterns - YouTube Playlist](https://youtube.com/playlist?list=PLVz2XdJiJQxw1H3JVhclHc__WYDaiS1uL&si=cd_R6eHCb7nhGvlf)
