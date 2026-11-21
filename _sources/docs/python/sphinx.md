@@ -96,7 +96,7 @@
    :::{tab-item} iOS/Unix based Systems
 
    ```bash
-   make html
+   .\publish.ps1 "Added Commands to automate build and publish" true
    ```
 
    :::
@@ -104,7 +104,7 @@
    :::{tab-item} Windows
 
    ```bash
-   .\make.bat html
+   .\publish.ps1 "Added Commands to automate build and publish" false
    ```
 
    :::
