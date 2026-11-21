@@ -1,1 +1,1 @@
-# Saga Design Pattern
+# Saga

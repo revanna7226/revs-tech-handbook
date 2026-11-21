@@ -1,4 +1,4 @@
-# Microservices Design Patterns
+# Design Patterns
 
 ```{toctree}
 :maxdepth: 4
@@ -6,6 +6,8 @@
 :caption: Topics
 
 saga
+choreography
+cqrs
 
 
 ```
