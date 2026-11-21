@@ -5,11 +5,11 @@
 :hidden:
 :caption: Topics
 
+docs/java/index
 docs/python/index
 docs/cloud/index
 docs/database/index
 docs/ide/index
-docs/java/index
 docs/golang/index
 docs/angular/index
 docs/node/index
