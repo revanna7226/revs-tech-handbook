@@ -1,0 +1,1076 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Git Operations &#8212; Revs Tech Handbook 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=aafd0e32" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/code-tabs.css?v=1bc26e2f" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/code-tabs.js?v=c983d12e"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/cloud/git/operations';</script>
+    <script src="../../../_static/js/pdfobject.min.js?v=914dae28"></script>
+    <link rel="icon" href="../../../_static/favicon3.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Github" href="github.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/revs-logo-h3.png" class="logo__image only-light" alt="Revs Tech Handbook 1.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/revs-logo-h3.png" class="logo__image only-dark" alt="Revs Tech Handbook 1.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Topics</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../python/index.html">Python</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../python/installation.html">Python Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/sphinx.html">Sphinx Setup</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Cloud</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Git &amp; GitHub - The Practical Guide</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Git Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="github.html">Github</a></li>
+<li class="toctree-l3"><a class="reference internal" href="github-deepdive.html">GitHub Collaboration and Contribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="assignment.html">Git Assignments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../ms/index.html">Microservices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ms/introduction.html">Microservices</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../aws/index.html">AWS Certifications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../aws/cloud-practioner/index.html">Ultimate AWS Certified Cloud Practitioner CLF-C02 2025</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../aws/cloud-practioner/activation.html">AWS Account Activation Troubleshooting</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../k8s/index.html">Kubernetes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../k8s/introduction.html">Kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../k8s/configs.html">Installation and Configs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../k8s/dashboard-web.html">Kubernetes Dashboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../k8s/components_commands.html">K8s Componets and Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../k8s/components.html">K8s commands:</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../docker/index.html">Dockers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../docker/introduction.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/commands.html">Docker Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/tasks.html">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/docker-compose.html">Docker Compose</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../helm/index.html">Helm Charts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../helm/introduction.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../helm/commands.html">Helm Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../helm/advanced-commands.html">Advanced Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../helm/create-charts.html">Create Charts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../helm/templates.html">Templates Deep Dive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../helm/repository.html">Repository</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../jenkins/index.html">Jenkins</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../kafka/index.html">Apache Kafka</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../kafka/installation.html">Commands to Install and Run Zookeeper/Kafka Broker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kafka/introduction.html">Introduction</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../rabbitmq/index.html">RabbitMQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/installation.html">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/projects.html">Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/exchange.html">Exchange in RabbitMQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/exchange-direct.html">Direct Exchange</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/exchange-fanout.html">Fanout Exchange</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/exchange-topic.html">Topic Exchange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/exchange-headers.html">Headers Exchange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/qna.html">Questions &amp; Answers</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../database/index.html">Database</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../database/mysql/index.html">MYSQL</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/introduction.html">Introduction to MySQL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/constraints.html">SQL Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/dml.html">DML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/ddl.html">DDL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/dcl.html">DCL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/tcl.html">TCL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/operators.html">Operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/datatypes.html">Data Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/functions.html">MySQL Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/groupby.html">MySQL GROUP BY Clause</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/subqueries.html">MySQL Subqueries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/joins.html">MySQL JOINS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/co-related-sq.html">Correlated Subqueries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/normalization.html">Normalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/codds.html">Codd’s Rules for Relational Databases</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../database/mongodb/index.html">Mongo DB</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mongodb/docs/crud.html">CRUD Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mongodb/docs/schemaAndRelation.html">Data Types, Schema and Relations</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../ide/index.html">IDEs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ide/vscode.html">Visual Studio Code</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../java/index.html">Java</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../java/introduction.html">Java Introduction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/basics/index.html">Core Java Concepts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../java/basics/collections/introduction.html">Collections</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../java/basics/collections/list.html">List Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/basics/collections/set.html">Set Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/basics/collections/map.html">Map Interface</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/java8/index.html">Java 8</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java8/streams.html">Stream API in Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java8/common_stream_ops.html">Common Stream Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java8/optional.html">Optional in Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java8/functional_interface.html">Functional Interfaces in Java</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/java9/index.html">Java 9</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java9/interface_private_methods.html">Private Methods in Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java9/try_with_resources.html">Try with Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java9/diamond_operator_enhancements.html">Diamond Operator Enhancements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java9/safe_varargs_annotion.html">Safe Varargs Annotion Enhancements</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java/java9plus/index.html">Java Features 9+</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java/maven/index.html">Apache Maven</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/design_patterns/index.html">Java Design Patterns</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../java/design_patterns/introduction.html">Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/solid_principles/srp.html">1. Single Responsibility Principle - SRP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/solid_principles/ocp.html">2. Open-Closed Principle - OSP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/solid_principles/lsp.html">3. Linkov Substitution Principle - LSP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/solid_principles/isp.html">4. Interface Segregation Principle - ISP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/solid_principles/dip.html">5. Dependency Inversion Principle - DIP</a></li>
+</ul>
+</details></li>
+
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../java/design_patterns/design_patterns/creational/index.html">Creational Design Patterns</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/design_patterns/creational/builder.html">Builder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/design_patterns/creational/factory.html">Factory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/design_patterns/creational/prototype.html">Prototype</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/design_patterns/creational/singleton.html">Singleton Design Pattern in Java</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../java/design_patterns/design_patterns/structural/index.html">Structural Design Patterns</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/design_patterns/structural/adapter.html">When to use</a></li>
+
+
+
+
+
+
+
+
+
+
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/spring/index.html">Spring Framework</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../java/spring/data_jpa/index.html">Spring Data JPA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../java/spring/data_jpa/in28Minutes/index.html">UdemyCourse in28Minutes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/spring/data_jpa/features.html">Spring Data JPA Features</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/spring/security/index.html">Spring Security</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../java/spring/spring-boot/index.html">Spring Boot</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../java/spring/spring-boot/features/swagger.html">Swagger/OpenAPI Documentation</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/reactive_programming/index.html">Reactive Programming in Modern Java using Project Reactor</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../java/reactive_programming/introduction.html">1. Reactive Programming in Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/reactive_programming/project_reactor.html">2. What is Project Reactor?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/testing/index.html">Java Testing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../java/testing/jmeter.html">Apache JMeter</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../golang/index.html">Golang</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../golang/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../golang/cards.html">Cards Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../golang/testing.html">Testing in go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../golang/structs.html">Struct in Go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../golang/maps.html">Maps in Go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../golang/interface.html">Interface</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../angular/index.html">Angular</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../angular/notes/installation.html">Setting up Angular on Local Machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../angular/notes/lifecyclehooks.html">Lifecycle Hooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../angular/notes/proxyServer.html">Proxy Server Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../angular/notes/rxjs.html">RxJs Interview Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../angular/notes/typescript.html">Typescript</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../node/index.html">Node.js</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../webui/index.html">Web technologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../webui/css/index.html">Cascading style sheets (CSS)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../webui/css/introduction.html">Introduction to CSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../webui/css/resources.html">Useful Resources &amp; Links</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../genai/index.html">Gen AI</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../genai/prompt-engineering/index.html">Prompt Engineering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../genai/prompt-engineering/introduction.html">Introduction to Prompt Engineering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../genai/prompt-engineering/techniques.html">Prompt Techniques</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../genai/aitools/index.html">Gen AI Tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../genai/aitools/introduction.html">Agentic AI Coding Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../genai/aitools/cline.html">Cline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../genai/aitools/geminicodeassist.html">Gemini Code Assist</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../genai/aitools/github-copilot/index.html">GitHub Copilot</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../genai/aitools/github-copilot/introduction.html">GitHub Copilot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../genai/aitools/claude-code/index.html">Claude Code</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../genai/genai-notes/ai-ml.html">Artificial Intelligence (AI)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../questions/index.html">Question Bank</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../questions/hr-questions.html">HR questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../questions/questions-bank.html">Java Questions</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../questions/scenario-based.html">Scenario based Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../questions/db-questions.html">Database Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../questions/design_patterns.html">Design Patterns</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../questions/coding/index.html">Coding Excercise</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/coding/streams.html">Coding Problems on Streams</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../questions/coding/snippet.html">Analyze the Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/coding/programming.html">Coding Problems</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../questions/dsa-leetcode/index.html">Java DSA + LeetCode</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/introduction.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/bigo.html">Big O Notation in Java: Explained</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/linkedlist.html">Linked List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/doublyll.html">Doubly Linked List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/stack.html">Stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/queue.html">Queue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/binarytree.html">Binary Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/hashtable.html">HashTable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/basicsort.html">Basic Sorts</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mdcheetsheet.html">Markdown Cheetsheet</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../youtube/index.html">Youtube</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../eBooks/index.html">eBooks</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Git Operations</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-merge-types">Understanding Merge Types</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fast-forward">1. Fast-Forward</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-fast-forward">2. Non Fast-Forward</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rebase">3. Rebase</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-merge-conflicts">Handling Merge Conflicts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cherry-pick">Cherry Pick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-tagging">Understanding Tagging</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="git-operations">
+<h1>Git Operations<a class="headerlink" href="#git-operations" title="Link to this heading">#</a></h1>
+<p>Git Repo -&gt; Staging Area + Commit Folder</p>
+<p>Git Configurations</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;revanna7226&quot;</span>
+
+git<span class="w"> </span>config<span class="w"> </span>user.name
+
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;revanna@email.com&quot;</span>
+
+git<span class="w"> </span>config<span class="w"> </span>--list
+
+git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>&lt;repo_name&gt;/origin<span class="w"> </span>&lt;repo_url&gt;
+</pre></div>
+</div>
+<p>Turn a directory into git repository or make directory managed by git.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init
+</pre></div>
+</div>
+<p>To explore our commit history with git log. To exit this menu, please press “q” and confirm this with Enter on your keyboard.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log
+git<span class="w"> </span>log<span class="w"> </span>--one-line
+</pre></div>
+</div>
+<p>To Switch to specific commit</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># shows the commit history</span>
+git<span class="w"> </span>log
+
+<span class="c1"># take a commit id from the logs and use in the below command.</span>
+git<span class="w"> </span>checkout<span class="w"> </span>&lt;commit_id&gt;
+
+<span class="c1"># to switch back to branch</span>
+git<span class="w"> </span>checkout<span class="w"> </span>master
+</pre></div>
+</div>
+<p>Deleting working directory files</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># this command deletes the file and stages for commit.</span>
+<span class="c1"># this equal to (manual delete + git add )</span>
+git<span class="w"> </span>rm<span class="w"> </span>&lt;files/folder&gt;
+</pre></div>
+</div>
+<p>Undoing or revert unstaged changes</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># to undo perticular file</span>
+git<span class="w"> </span>checkout<span class="w"> </span>&lt;file&gt;
+<span class="c1"># recommanded</span>
+git<span class="w"> </span>restore<span class="w"> </span>&lt;file&gt;
+
+<span class="c1"># to undo all changes which are unstaged</span>
+git<span class="w"> </span>checkout<span class="w"> </span>.
+<span class="c1"># recommanded</span>
+git<span class="w"> </span>restore<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Delete untracked files</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># this lists all files which are untracked and picked up for delete</span>
+<span class="c1"># flags: d delete, n list</span>
+git<span class="w"> </span>clean<span class="w"> </span>-dn
+
+<span class="c1"># this deletes all untracked files</span>
+<span class="c1"># flags: d delete, f force</span>
+git<span class="w"> </span>clean<span class="w"> </span>-df
+</pre></div>
+</div>
+<p>Undoing or reverting staged changes</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># unstage single or all files</span>
+git<span class="w"> </span>reset<span class="w"> </span>&lt;file&gt;
+git<span class="w"> </span>reset<span class="w"> </span>.
+
+<span class="c1"># revert a file or all files</span>
+git<span class="w"> </span>restore<span class="w"> </span>&lt;file&gt;
+git<span class="w"> </span>restore<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Deleting or undo commits with git reset</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># delete last one commit and stay changes in staged area</span>
+git<span class="w"> </span>reset<span class="w"> </span>--soft<span class="w"> </span>HEAD~1
+
+<span class="c1"># delete last commit and remove all files permanently</span>
+git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD~1
+</pre></div>
+</div>
+<p>Commmands to see which are files are tracking by git</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>ls-files
+</pre></div>
+</div>
+<p>Deleting a branch</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># only if it has already been fully merged into its upstream branch</span>
+git<span class="w"> </span>branch<span class="w"> </span>-d<span class="w"> </span>&lt;branch&gt;
+
+<span class="c1"># force deletes the branch, regardless of its merge status</span>
+git<span class="w"> </span>branch<span class="w"> </span>-D<span class="w"> </span>&lt;branch-name&gt;<span class="w"> </span><span class="o">[</span>&lt;branch-name&gt;<span class="o">]</span>
+</pre></div>
+</div>
+<p>Committing detached HEAD changes</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log
+<span class="c1"># checkout to any commit</span>
+git<span class="w"> </span>checkout<span class="w"> </span>&lt;commit-hash&gt;
+
+<span class="c1"># do some changes</span>
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;commit message&#39;</span>
+
+<span class="c1"># you are in detached head</span>
+git<span class="w"> </span>branch
+<span class="c1"># create a new branch for detached head</span>
+git<span class="w"> </span>branch<span class="w"> </span>detached-head
+
+git<span class="w"> </span>switch<span class="w"> </span>master
+
+git<span class="w"> </span>merge<span class="w"> </span>detached-head
+
+git<span class="w"> </span>branch<span class="w"> </span>-D<span class="w"> </span>detached-head
+</pre></div>
+</div>
+<p>bringing lost data back with <em>git reflog</em></p>
+<p>A log of all project changes made including deleted commits</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># deletes last commit changes and files</span>
+git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD~1
+
+<span class="c1"># shows the activity of git operations done in the repo</span>
+git<span class="w"> </span>reflog
+
+<span class="c1"># use hex id of the last commit in the reflog activity list</span>
+git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>&lt;hash-code&gt;
+
+<span class="c1"># --- delete branch and restore</span>
+<span class="c1"># create a branch, do some changes and commit all the changes.</span>
+<span class="c1"># delete the branch</span>
+git<span class="w"> </span>branch<span class="w"> </span>-D<span class="w"> </span>&lt;branch-name&gt;
+
+<span class="c1"># get activity list</span>
+git<span class="w"> </span>reflog
+
+<span class="c1"># checkout to last commit of the branch, you will be in the detached HEAD</span>
+git<span class="w"> </span>checkout<span class="w"> </span>&lt;hash-code&gt;
+
+<span class="c1"># create new branch for detached head changes</span>
+git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>&lt;branch&gt;
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p><cite>git status</cite> is used to list all new or modified files that haven’t yet been committed</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>status
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><cite>git add &lt;file-name&gt;</cite> to update what will be committed or staged</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># stage a single file, or multile files by separating file names by comma</span>
+git<span class="w"> </span>add<span class="w"> </span>&lt;file-name&gt;
+git<span class="w"> </span>add<span class="w"> </span>&lt;file1&gt;,&lt;file2&gt;
+
+<span class="c1"># stage all changes at once shot</span>
+git<span class="w"> </span>add<span class="w"> </span>*
+</pre></div>
+</div>
+<p>Unstage staged files</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># unstage single file</span>
+git<span class="w"> </span>restore<span class="w"> </span>--staged<span class="w"> </span>&lt;file&gt;
+
+<span class="c1"># unstage all files</span>
+git<span class="w"> </span>restore<span class="w"> </span>--staged<span class="w"> </span>.
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><cite>git commit -m “write commit message”</cite> is used to commit changes</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;write commit message&quot;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p><cite>git push origin main</cite> is used to push the project to GitHub main branch</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p><cite>git branch</cite> shows branches present in this repository and also we can see which is the active branch indicated by asterisk.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># lists local branches</span>
+git<span class="w"> </span>branch
+
+<span class="c1"># lists local branches and remote tracking branches</span>
+git<span class="w"> </span>branch<span class="w"> </span>-a
+
+<span class="c1"># lists remote branches available</span>
+git<span class="w"> </span>ls-remote
+
+<span class="c1"># git create local-tracking branch and</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p><cite>git clone &lt;url&gt; &lt;new-folder-name&gt;</cite> used to clone the project</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># clone master branch to local</span>
+git<span class="w"> </span>clone<span class="w"> </span>&lt;url&gt;<span class="w"> </span>&lt;new-folder-name&gt;
+
+<span class="c1"># clone a perticular branch to local</span>
+git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>&lt;branch&gt;<span class="w"> </span>&lt;repo-url&gt;<span class="w"> </span>&lt;new-folder-name&gt;
+</pre></div>
+</div>
+<ol class="arabic simple" start="7">
+<li><p><cite>git branch &lt;new-branch-name&gt;</cite> used to create new branch</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>&lt;new-branch-name&gt;
+</pre></div>
+</div>
+<ol class="arabic simple" start="8">
+<li><p><cite>git checkout &lt;branch-name&gt;</cite> used to switch from one branch to another branch</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># switch to existing branch</span>
+git<span class="w"> </span>checkout<span class="w"> </span>&lt;branch-name&gt;
+
+<span class="c1"># Aletrnative</span>
+git<span class="w"> </span>switch<span class="w"> </span>&lt;branch-name&gt;
+
+<span class="c1"># create new branch and switch to it</span>
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>&lt;branch-name&gt;
+
+<span class="c1"># Aletrnative</span>
+git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>&lt;branch-name&gt;
+</pre></div>
+</div>
+<ol class="arabic simple" start="9">
+<li><p><cite>git diff</cite> compare the changes</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff
+</pre></div>
+</div>
+<ol class="arabic" start="10">
+<li><p>Use git stash when you want to record the current state of the working directory and the index, but want to go back to a clean working directory.
+<a class="reference external" href="https://git-scm.com/docs/git-stash">https://git-scm.com/docs/git-stash</a></p>
+<p>Temporary storage for unstaged and uncommitted changes</p>
+</li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># push the intermediate changes with index reference</span>
+git<span class="w"> </span>stash
+
+<span class="c1"># push the intermediate changes with a message</span>
+git<span class="w"> </span>stash<span class="w"> </span>push<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;message to temp save&quot;</span>
+
+<span class="c1"># to check for all the stashes</span>
+git<span class="w"> </span>stash<span class="w"> </span>list
+
+<span class="c1"># to load a perticular changes use index to load</span>
+git<span class="w"> </span>stash<span class="w"> </span>apply<span class="w"> </span>&lt;stash-index&gt;
+
+<span class="c1"># to load a perticular changes with index and drop the stash</span>
+git<span class="w"> </span>stash<span class="w"> </span>pop<span class="w"> </span>&lt;stash-index&gt;
+
+<span class="c1"># to remove a stash with an index</span>
+git<span class="w"> </span>stash<span class="w"> </span>drop<span class="w"> </span>&lt;stash-index&gt;
+
+<span class="c1"># need to check what is it</span>
+git<span class="w"> </span>stash<span class="w"> </span>clear
+</pre></div>
+</div>
+<section id="understanding-merge-types">
+<h2>Understanding Merge Types<a class="headerlink" href="#understanding-merge-types" title="Link to this heading">#</a></h2>
+<p>Combining commits from different branches by creating a new merge commit
+(recursive) or by moving the HEAD (fast-forward)</p>
+<p>There are two types of merge mainly we use in our day to day activities.</p>
+<section id="fast-forward">
+<h3>1. Fast-Forward<a class="headerlink" href="#fast-forward" title="Link to this heading">#</a></h3>
+<p>Only possible when there are no commits in the master after feature branch was created.</p>
+<p><em>Merge</em> moves HEAD forward but does not create new commit.</p>
+<img alt="../../../_images/ff-merge.png" src="../../../_images/ff-merge.png" />
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch
+<span class="c1"># master</span>
+<span class="c1"># feature</span>
+
+<span class="c1"># switch to master branch and run merge command</span>
+git<span class="w"> </span>merge<span class="w"> </span>feature
+
+<span class="c1"># no commits required</span>
+</pre></div>
+</div>
+<p>If you don’t want to have intermediate commits which is done in the feature branch do SQUASH commit.</p>
+<p>Explicite commit is required here for merge action.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># squashes all the commits and adds the whole changes done in the feature to staging</span>
+git<span class="w"> </span>merge<span class="w"> </span>--squash<span class="w"> </span>feature
+
+<span class="c1"># commit the changes with appropriate message</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;merged feature with master: feature -- is added&#39;</span>
+</pre></div>
+</div>
+<p>master -&gt; m1    m2     merged(HEAD, master)</p>
+</section>
+<section id="non-fast-forward">
+<h3>2. Non Fast-Forward<a class="headerlink" href="#non-fast-forward" title="Link to this heading">#</a></h3>
+<p>Additional commits in both master and feature branch after fetaure branch was created</p>
+<p>Additional (merge) commit is created in master branch</p>
+<img alt="../../../_images/non-ff-recursive.png" src="../../../_images/non-ff-recursive.png" />
+<p>There are four types of Non Fast-Forward merge</p>
+<ol class="arabic simple">
+<li><p>Recursive -&gt; mainly used</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># explicitely mentioning --no-ff</span>
+git<span class="w"> </span>merge<span class="w"> </span>--no-ff<span class="w"> </span>feature
+
+<span class="c1"># below command applies recursive non fast forward</span>
+<span class="c1"># when there are commits in master after feature was created</span>
+git<span class="w"> </span>merge<span class="w"> </span>feature
+
+git<span class="w"> </span>merge<span class="w"> </span>--squash<span class="w"> </span>feature
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Octopus</p></li>
+<li><p>Ours</p></li>
+<li><p>Subtree</p></li>
+</ol>
+</section>
+<section id="rebase">
+<h3>3. Rebase<a class="headerlink" href="#rebase" title="Link to this heading">#</a></h3>
+<p>Change the base (i.e. the parent commit) of commits in another branch</p>
+<p>m3 becomes new base commit for commit created in feature branch.</p>
+<p>rebase master to feature branch</p>
+<p>merge rebase feature into master</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>rebase does not move commits instead it creates new commits.</p>
+<p>Never rebase commits outside your repository.</p>
+<p><strong>Remember</strong>: Rebasing re-writes code history!</p>
+</div>
+<img alt="../../../_images/rebase.png" src="../../../_images/rebase.png" />
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># switch to feature</span>
+git<span class="w"> </span>switch<span class="w"> </span>feature
+
+<span class="c1"># run rebase in feature branch</span>
+git<span class="w"> </span>rebase<span class="w"> </span>master
+</pre></div>
+</div>
+<div class="admonition-when-to-apply-rebase admonition">
+<p class="admonition-title">When to Apply Rebase?</p>
+<p><strong>New commits in master branch while working in feature branch</strong></p>
+<p>Feature relies on additional commits in master branch</p>
+<p>Rebase master into feature branch</p>
+<p>—</p>
+<p>Feature is finished – Implementation into master without merge commit</p>
+<p>Rebase master into feature + (fast-forward) merge feature into master</p>
+</div>
+</section>
+</section>
+<section id="handling-merge-conflicts">
+<h2>Handling Merge Conflicts<a class="headerlink" href="#handling-merge-conflicts" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>merge<span class="w"> </span>feature
+
+<span class="c1"># when conflicts occurs, we need to resolves the conflicts and commit</span>
+<span class="c1"># other wise wwe can abort the merge</span>
+
+git<span class="w"> </span>merge<span class="w"> </span>--abort
+
+<span class="c1"># which shows the commits which are have merge conflicts</span>
+git<span class="w"> </span>log<span class="w"> </span>--merge
+</pre></div>
+</div>
+</section>
+<section id="cherry-pick">
+<h2>Cherry Pick<a class="headerlink" href="#cherry-pick" title="Link to this heading">#</a></h2>
+<p>Copy commit including the changes made only in this commit as HEAD to other
+branch</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># commit hash code from another branch</span>
+git<span class="w"> </span>cherry-pick<span class="w"> </span>&lt;commit-hash&gt;
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-text">Merge vs Rebase vs Cherry-Pick</span><a class="headerlink" href="#id1" title="Link to this table">#</a></caption>
+<colgroup>
+<col style="width: 33.0%" />
+<col style="width: 33.0%" />
+<col style="width: 34.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Merge (non fast-forward)</p></th>
+<th class="head"><p>Rebase</p></th>
+<th class="head"><p>Cherry-Pick</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Create merge commit</p></td>
+<td><p>Change single commit‘s parent</p></td>
+<td><p>Add specific commit to branch (HEAD)</p></td>
+</tr>
+<tr class="row-odd"><td><p>New commit</p></td>
+<td><p>New commit ID(s)</p></td>
+<td><p>Copies commit with new ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="understanding-tagging">
+<h2>Understanding Tagging<a class="headerlink" href="#understanding-tagging" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># to add tag</span>
+git<span class="w"> </span>tag<span class="w"> </span>&lt;version_1.0&gt;<span class="w"> </span>&lt;commit_hash&gt;
+
+<span class="c1"># to list tags</span>
+git<span class="w"> </span>tag
+
+<span class="c1"># to show tags info</span>
+git<span class="w"> </span>show<span class="w"> </span><span class="m">1</span>.0
+
+<span class="c1"># checkout to tag</span>
+git<span class="w"> </span>checkout<span class="w"> </span><span class="m">1</span>.0
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="installation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="github.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Github</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-merge-types">Understanding Merge Types</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fast-forward">1. Fast-Forward</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-fast-forward">2. Non Fast-Forward</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rebase">3. Rebase</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-merge-conflicts">Handling Merge Conflicts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cherry-pick">Cherry Pick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-tagging">Understanding Tagging</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Revannaswamy N
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Revannaswamy N.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

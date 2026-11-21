@@ -1,0 +1,1482 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Splunk Notes for Java, Spring Boot and .NET Developers &#8212; Revs Tech Handbook 1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=aafd0e32" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/code-tabs.css?v=1bc26e2f" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/code-tabs.js?v=c983d12e"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/cloud/splunk/notes';</script>
+    <script src="../../../_static/js/pdfobject.min.js?v=914dae28"></script>
+    <link rel="icon" href="../../../_static/favicon3.png"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/revs-logo-h3.png" class="logo__image only-light" alt="Revs Tech Handbook 1.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../_static/revs-logo-h3.png" class="logo__image only-dark" alt="Revs Tech Handbook 1.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../python/index.html">Python</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../python/installation.html">Python Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/sphinx.html">Sphinx Setup</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../index.html">Cloud</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../git/index.html">Git &amp; GitHub - The Practical Guide</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../git/installation.html">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/operations.html">Git Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/github.html">Github</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/github-deepdive.html">GitHub Collaboration and Contribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/assignment.html">Git Assignments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/reference.html">References</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../ms/index.html">Microservices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ms/introduction.html">Microservices</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../aws/index.html">AWS Certifications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../aws/cloud-practioner/index.html">Ultimate AWS Certified Cloud Practitioner CLF-C02 2025</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../aws/cloud-practioner/activation.html">AWS Account Activation Troubleshooting</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../k8s/index.html">Kubernetes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../k8s/introduction.html">Kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../k8s/configs.html">Installation and Configs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../k8s/dashboard-web.html">Kubernetes Dashboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../k8s/components_commands.html">K8s Componets and Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../k8s/components.html">K8s commands:</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../docker/index.html">Dockers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../docker/introduction.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/commands.html">Docker Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/tasks.html">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/docker-compose.html">Docker Compose</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../helm/index.html">Helm Charts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../helm/introduction.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../helm/commands.html">Helm Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../helm/advanced-commands.html">Advanced Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../helm/create-charts.html">Create Charts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../helm/templates.html">Templates Deep Dive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../helm/repository.html">Repository</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../jenkins/index.html">Jenkins</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../kafka/index.html">Apache Kafka</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../kafka/installation.html">Commands to Install and Run Zookeeper/Kafka Broker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kafka/introduction.html">Introduction</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../rabbitmq/index.html">RabbitMQ</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/installation.html">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/projects.html">Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/exchange.html">Exchange in RabbitMQ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/exchange-direct.html">Direct Exchange</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/exchange-fanout.html">Fanout Exchange</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/exchange-topic.html">Topic Exchange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/exchange-headers.html">Headers Exchange</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rabbitmq/docs/qna.html">Questions &amp; Answers</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../database/index.html">Database</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../database/mysql/index.html">MYSQL</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/introduction.html">Introduction to MySQL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/constraints.html">SQL Constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/dml.html">DML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/ddl.html">DDL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/dcl.html">DCL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/tcl.html">TCL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/operators.html">Operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/datatypes.html">Data Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/functions.html">MySQL Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/groupby.html">MySQL GROUP BY Clause</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/subqueries.html">MySQL Subqueries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/joins.html">MySQL JOINS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/co-related-sq.html">Correlated Subqueries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/normalization.html">Normalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mysql/topics/codds.html">Codd’s Rules for Relational Databases</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../database/mongodb/index.html">Mongo DB</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mongodb/docs/crud.html">CRUD Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../database/mongodb/docs/schemaAndRelation.html">Data Types, Schema and Relations</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../ide/index.html">IDEs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ide/vscode.html">Visual Studio Code</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../java/index.html">Java</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../java/introduction.html">Java Introduction</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/basics/index.html">Core Java Concepts</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../java/basics/collections/introduction.html">Collections</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../java/basics/collections/list.html">List Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/basics/collections/set.html">Set Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/basics/collections/map.html">Map Interface</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/java8/index.html">Java 8</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java8/streams.html">Stream API in Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java8/common_stream_ops.html">Common Stream Operations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java8/optional.html">Optional in Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java8/functional_interface.html">Functional Interfaces in Java</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/java9/index.html">Java 9</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java9/interface_private_methods.html">Private Methods in Interfaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java9/try_with_resources.html">Try with Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java9/diamond_operator_enhancements.html">Diamond Operator Enhancements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/java9/safe_varargs_annotion.html">Safe Varargs Annotion Enhancements</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java/java9plus/index.html">Java Features 9+</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java/maven/index.html">Apache Maven</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/design_patterns/index.html">Java Design Patterns</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../java/design_patterns/introduction.html">Introduction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/solid_principles/srp.html">1. Single Responsibility Principle - SRP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/solid_principles/ocp.html">2. Open-Closed Principle - OSP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/solid_principles/lsp.html">3. Linkov Substitution Principle - LSP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/solid_principles/isp.html">4. Interface Segregation Principle - ISP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/solid_principles/dip.html">5. Dependency Inversion Principle - DIP</a></li>
+</ul>
+</details></li>
+
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../java/design_patterns/design_patterns/creational/index.html">Creational Design Patterns</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/design_patterns/creational/builder.html">Builder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/design_patterns/creational/factory.html">Factory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/design_patterns/creational/prototype.html">Prototype</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/design_patterns/creational/singleton.html">Singleton Design Pattern in Java</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../java/design_patterns/design_patterns/structural/index.html">Structural Design Patterns</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../java/design_patterns/design_patterns/structural/adapter.html">When to use</a></li>
+
+
+
+
+
+
+
+
+
+
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/spring/index.html">Spring Framework</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../java/spring/data_jpa/index.html">Spring Data JPA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../java/spring/data_jpa/in28Minutes/index.html">UdemyCourse in28Minutes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../java/spring/data_jpa/features.html">Spring Data JPA Features</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/spring/security/index.html">Spring Security</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../java/spring/spring-boot/index.html">Spring Boot</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../java/spring/spring-boot/features/swagger.html">Swagger/OpenAPI Documentation</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/reactive_programming/index.html">Reactive Programming in Modern Java using Project Reactor</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../java/reactive_programming/introduction.html">1. Reactive Programming in Java</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../java/reactive_programming/project_reactor.html">2. What is Project Reactor?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../java/testing/index.html">Java Testing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../java/testing/jmeter.html">Apache JMeter</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../golang/index.html">Golang</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../golang/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../golang/cards.html">Cards Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../golang/testing.html">Testing in go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../golang/structs.html">Struct in Go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../golang/maps.html">Maps in Go</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../golang/interface.html">Interface</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../angular/index.html">Angular</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../angular/notes/installation.html">Setting up Angular on Local Machine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../angular/notes/lifecyclehooks.html">Lifecycle Hooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../angular/notes/proxyServer.html">Proxy Server Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../angular/notes/rxjs.html">RxJs Interview Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../angular/notes/typescript.html">Typescript</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../node/index.html">Node.js</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../webui/index.html">Web technologies</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../webui/css/index.html">Cascading style sheets (CSS)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../webui/css/introduction.html">Introduction to CSS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../webui/css/resources.html">Useful Resources &amp; Links</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../genai/index.html">Gen AI</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../genai/prompt-engineering/index.html">Prompt Engineering</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../genai/prompt-engineering/introduction.html">Introduction to Prompt Engineering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../genai/prompt-engineering/techniques.html">Prompt Techniques</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../genai/aitools/index.html">Gen AI Tools</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../genai/aitools/introduction.html">Agentic AI Coding Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../genai/aitools/cline.html">Cline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../genai/aitools/geminicodeassist.html">Gemini Code Assist</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../genai/aitools/github-copilot/index.html">GitHub Copilot</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../genai/aitools/github-copilot/introduction.html">GitHub Copilot</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../genai/aitools/claude-code/index.html">Claude Code</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="simple">
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../genai/genai-notes/ai-ml.html">Artificial Intelligence (AI)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../questions/index.html">Question Bank</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../questions/hr-questions.html">HR questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../questions/questions-bank.html">Java Questions</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../questions/scenario-based.html">Scenario based Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../questions/db-questions.html">Database Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../questions/design_patterns.html">Design Patterns</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../questions/coding/index.html">Coding Excercise</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/coding/streams.html">Coding Problems on Streams</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../questions/coding/snippet.html">Analyze the Output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/coding/programming.html">Coding Problems</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../questions/dsa-leetcode/index.html">Java DSA + LeetCode</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/introduction.html">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/bigo.html">Big O Notation in Java: Explained</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/linkedlist.html">Linked List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/doublyll.html">Doubly Linked List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/stack.html">Stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/queue.html">Queue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/binarytree.html">Binary Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/hashtable.html">HashTable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../questions/dsa-leetcode/topics/basicsort.html">Basic Sorts</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mdcheetsheet.html">Markdown Cheetsheet</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../youtube/index.html">Youtube</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../eBooks/index.html">eBooks</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Splunk Notes for Java, Spring Boot and .NET Developers</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-these-notes">1. How to Use These Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#splunk-fundamentals">2. Splunk Fundamentals</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-splunk-does">2.1 What Splunk Does</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-architecture">2.2 Core Architecture</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-pipeline">2.3 Data Pipeline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-terms">2.4 Important Terms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#config-files-you-should-recognise">2.5 Config Files You Should Recognise</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spl-essentials">3. SPL Essentials</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#search-anatomy">3.1 Search Anatomy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#search-performance-rules-interview-favourite">3.2 Search Performance Rules (Interview Favourite)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commands-you-must-know">3.3 Commands You Must Know</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#handy-eval-functions">3.4 Handy Eval Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-modifiers">3.5 Time Modifiers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subsearch-gotchas">3.6 Subsearch Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logging-from-java-and-spring-boot">4. Logging From Java and Spring Boot</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principles">4.1 Principles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-ways-to-get-logs-into-splunk">4.2 Three Ways to Get Logs Into Splunk</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spring-boot-structured-logging">4.3 Spring Boot Structured Logging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-hec-appender-example-logback">4.4 Direct HEC Appender Example (Logback)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlation-mdc-trace-ids-and-filters">4.5 Correlation: MDC, Trace IDs and Filters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics-and-traces-beyond-logs">4.6 Metrics and Traces Beyond Logs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logging-from-net-microsoft-stack">5. Logging From .NET (Microsoft Stack)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#options">5.1 Options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#serilog-example">5.2 Serilog Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mapping-between-java-and-net-concepts">5.3 Mapping Between Java and .NET Concepts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#day-to-day-developer-use-cases-with-spl">6. Day-to-Day Developer Use Cases With SPL</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-recent-errors-by-service">6.1 Find Recent Errors by Service</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trace-a-single-request-end-to-end">6.2 Trace a Single Request End to End</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#latency-percentiles-per-endpoint">6.3 Latency Percentiles per Endpoint</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-rate-over-time">6.4 Error Rate Over Time</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-before-and-after-a-deployment">6.5 Compare Before and After a Deployment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-exceptions-that-did-not-exist-yesterday">6.6 New Exceptions That Did Not Exist Yesterday</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slow-downstream-dependency">6.7 Slow Downstream Dependency</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parse-unstructured-logs">6.8 Parse Unstructured Logs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#business-questions">6.9 Business Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alerts-dashboards-and-reports">7. Alerts, Dashboards and Reports</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alerts">7.1 Alerts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-alerting-practice">7.2 Good Alerting Practice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dashboards">7.3 Dashboards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-knowledge-objects">7.4 Other Knowledge Objects</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#splunk-observability-cloud-brief">8. Splunk Observability Cloud (Brief)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#security-governance-and-cost">9. Security, Governance and Cost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-questions-and-model-answers">10. Interview Questions and Model Answers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture-and-concepts">10.1 Architecture and Concepts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spl">10.2 SPL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#java-spring-boot-and-net-usage">10.3 Java, Spring Boot and .NET Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operations-and-design">10.4 Operations and Design</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario-questions">10.5 Scenario Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-cheat-sheet">11. Quick Cheat Sheet</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seven-day-preparation-plan">12. Seven-Day Preparation Plan</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#star-template-for-behavioural-questions">STAR Template for Behavioural Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-hands-on-practice">13. Suggested Hands-On Practice</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="splunk-notes-for-java-spring-boot-and-net-developers">
+<h1>Splunk Notes for Java, Spring Boot and .NET Developers<a class="headerlink" href="#splunk-notes-for-java-spring-boot-and-net-developers" title="Link to this heading">#</a></h1>
+<p>Interview preparation and day-to-day developer usage guide for engineers with around 10 years of experience.</p>
+<section id="how-to-use-these-notes">
+<h2>1. How to Use These Notes<a class="headerlink" href="#how-to-use-these-notes" title="Link to this heading">#</a></h2>
+<p>At 10 years of experience, interviewers expect more than “I search logs in Splunk.” They look for:</p>
+<ul class="simple">
+<li><p>Understanding of the architecture (how data gets in, where it is stored, how searches run)</p></li>
+<li><p>Fluency in SPL (Search Processing Language) for real troubleshooting</p></li>
+<li><p>Opinions on logging design: structure, correlation IDs, cost, PII</p></li>
+<li><p>Experience with alerts, dashboards, and observability (logs, metrics, traces)</p></li>
+<li><p>Judgment on performance, retention, and licensing cost</p></li>
+</ul>
+<p>Sections 2 to 5 are the foundation, 6 to 9 are the daily-use skills, and 10 to 13 are interview material and practice.</p>
+</section>
+<section id="splunk-fundamentals">
+<h2>2. Splunk Fundamentals<a class="headerlink" href="#splunk-fundamentals" title="Link to this heading">#</a></h2>
+<section id="what-splunk-does">
+<h3>2.1 What Splunk Does<a class="headerlink" href="#what-splunk-does" title="Link to this heading">#</a></h3>
+<p>Splunk ingests machine data (logs, metrics, events, traces), indexes it, and lets you search, visualise, alert and correlate it using SPL. Main offerings:</p>
+<ul class="simple">
+<li><p><strong>Splunk Enterprise</strong>: self-managed, on-prem or your own cloud.</p></li>
+<li><p><strong>Splunk Cloud Platform</strong>: Splunk-managed version of Enterprise.</p></li>
+<li><p><strong>Splunk Observability Cloud</strong>: APM, Infrastructure Monitoring, RUM, Synthetics, Log Observer. OpenTelemetry-based.</p></li>
+<li><p><strong>Splunk Enterprise Security (ES)</strong> and <strong>ITSI</strong>: SIEM and service-health products on top of the platform.</p></li>
+</ul>
+</section>
+<section id="core-architecture">
+<h3>2.2 Core Architecture<a class="headerlink" href="#core-architecture" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Component</p></th>
+<th class="head"><p>Role</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Universal Forwarder (UF)</strong></p></td>
+<td><p>Lightweight agent that reads files and sends raw data to indexers. No parsing (mostly).</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Heavy Forwarder (HF)</strong></p></td>
+<td><p>Full Splunk instance that can parse, filter, route and mask data before forwarding.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Indexer</strong></p></td>
+<td><p>Parses and indexes data, stores it in buckets, serves search requests.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Search Head</strong></p></td>
+<td><p>UI and search coordinator. Distributes searches to indexers, merges results.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Deployment Server</strong></p></td>
+<td><p>Pushes configuration to forwarders.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Cluster Manager</strong></p></td>
+<td><p>Coordinates indexer clustering (replication factor, search factor).</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>HTTP Event Collector (HEC)</strong></p></td>
+<td><p>HTTP/HTTPS endpoint (default port 8088) for sending events with a token. Common for apps and containers.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Common default ports: 8000 (web UI), 8089 (management/REST API), 9997 (forwarder to indexer), 8088 (HEC).</p>
+</section>
+<section id="data-pipeline">
+<h3>2.3 Data Pipeline<a class="headerlink" href="#data-pipeline" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Input</strong>: file monitor, HEC, syslog, scripted input, etc.</p></li>
+<li><p><strong>Parsing</strong>: line breaking, timestamp extraction, host/source/sourcetype assignment, index-time transforms (masking, routing).</p></li>
+<li><p><strong>Indexing</strong>: events written to buckets, with time-series index (tsidx) files.</p></li>
+<li><p><strong>Search</strong>: search-time field extraction, lookups, calculated fields, tags and event types applied.</p></li>
+</ol>
+<p>Key point: most field extraction happens at <strong>search time</strong> (schema on read). Index-time extraction is used sparingly because it increases index size and cannot be changed retroactively.</p>
+</section>
+<section id="important-terms">
+<h3>2.4 Important Terms<a class="headerlink" href="#important-terms" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Index</strong>: logical repository (for example <code class="docutils literal notranslate"><span class="pre">app_prod</span></code>, <code class="docutils literal notranslate"><span class="pre">app_nonprod</span></code>). Controls retention, access and storage.</p></li>
+<li><p><strong>Source</strong>: where data came from (file path, HEC token name).</p></li>
+<li><p><strong>Sourcetype</strong>: format of the data (controls parsing rules). Examples: <code class="docutils literal notranslate"><span class="pre">_json</span></code>, <code class="docutils literal notranslate"><span class="pre">access_combined</span></code>, custom ones.</p></li>
+<li><p><strong>Host</strong>: the machine or service that generated the event.</p></li>
+<li><p><strong>Bucket lifecycle</strong>: hot (being written), warm (rolled, searchable), cold (older, cheaper storage), frozen (deleted or archived), thawed (restored).</p></li>
+<li><p><strong>Knowledge objects</strong>: saved searches, field extractions, lookups, tags, event types, macros, data models.</p></li>
+<li><p><strong>CIM (Common Information Model)</strong>: normalised field naming used by Splunk apps and ES.</p></li>
+<li><p><strong>License</strong>: classically based on daily ingest volume (GB/day); other models exist. This is why log volume discipline matters.</p></li>
+</ul>
+</section>
+<section id="config-files-you-should-recognise">
+<h3>2.5 Config Files You Should Recognise<a class="headerlink" href="#config-files-you-should-recognise" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">inputs.conf</span></code>: what to monitor.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputs.conf</span></code>: where forwarders send data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">props.conf</span></code>: parsing rules per sourcetype/source/host (line breaking, TIME_FORMAT, SEDCMD masking, field extractions).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">transforms.conf</span></code>: regex-based routing, extraction, lookups.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">indexes.conf</span></code>: index definitions and retention.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">savedsearches.conf</span></code>: saved searches and alerts.</p></li>
+</ul>
+<p>Example props.conf for a Java app that logs multi-line stack traces:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[my_java_app]
+SHOULD_LINEMERGE = false
+LINE_BREAKER = ([\r\n]+)(?=\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2})
+TIME_PREFIX = ^
+TIME_FORMAT = %Y-%m-%d %H:%M:%S,%3N
+MAX_TIMESTAMP_LOOKAHEAD = 30
+TRUNCATE = 20000
+</pre></div>
+</div>
+<p>This is the classic fix for stack traces being split into many events. If you emit JSON logs (one line per event), most of this problem disappears.</p>
+</section>
+</section>
+<section id="spl-essentials">
+<h2>3. SPL Essentials<a class="headerlink" href="#spl-essentials" title="Link to this heading">#</a></h2>
+<section id="search-anatomy">
+<h3>3.1 Search Anatomy<a class="headerlink" href="#search-anatomy" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="n">app_prod</span> <span class="n">sourcetype</span><span class="o">=</span><span class="n">my_service</span> <span class="n">level</span><span class="o">=</span><span class="n">ERROR</span> <span class="n">earliest</span><span class="o">=-</span><span class="mi">4</span><span class="n">h</span>
+<span class="o">|</span> <span class="n">stats</span> <span class="n">count</span> <span class="n">by</span> <span class="n">service</span><span class="p">,</span> <span class="n">exception</span>
+<span class="o">|</span> <span class="n">sort</span> <span class="o">-</span> <span class="n">count</span>
+<span class="o">|</span> <span class="n">head</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<p>The part before the first pipe is the base search (retrieves events from the index). Everything after is a pipeline of commands.</p>
+</section>
+<section id="search-performance-rules-interview-favourite">
+<h3>3.2 Search Performance Rules (Interview Favourite)<a class="headerlink" href="#search-performance-rules-interview-favourite" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Always specify <strong>index</strong>, <strong>sourcetype</strong> and <strong>time range</strong>. Searching <code class="docutils literal notranslate"><span class="pre">index=*</span></code> over “All time” is the classic anti-pattern.</p></li>
+<li><p>Filter as early as possible, in the base search, not with <code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">where</span></code> later.</p></li>
+<li><p>Prefer positive terms. Avoid leading wildcards such as <code class="docutils literal notranslate"><span class="pre">*timeout</span></code>.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">fields</span></code> to drop unneeded fields early in long pipelines.</p></li>
+<li><p>Prefer <code class="docutils literal notranslate"><span class="pre">stats</span></code> over <code class="docutils literal notranslate"><span class="pre">transaction</span></code>, <code class="docutils literal notranslate"><span class="pre">join</span></code> and <code class="docutils literal notranslate"><span class="pre">append</span></code> where possible.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">tstats</span></code> for fast counts on indexed fields or accelerated data models.</p></li>
+<li><p>Use summary indexing, report acceleration or data model acceleration for repeated heavy dashboards.</p></li>
+<li><p>Use Fast or Smart mode, not Verbose, for routine searches.</p></li>
+</ol>
+</section>
+<section id="commands-you-must-know">
+<h3>3.3 Commands You Must Know<a class="headerlink" href="#commands-you-must-know" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Command</p></th>
+<th class="head"><p>Purpose</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">search</span></code> / <code class="docutils literal notranslate"><span class="pre">where</span></code></p></td>
+<td><p>Filter. <code class="docutils literal notranslate"><span class="pre">where</span></code> uses eval expressions.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">where</span> <span class="pre">duration_ms</span> <span class="pre">&gt;</span> <span class="pre">2000</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">eval</span></code></p></td>
+<td><p>Create or modify fields.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">eval</span> <span class="pre">status_class=floor(status/100)*100</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">stats</span></code></p></td>
+<td><p>Aggregate (count, sum, avg, dc, perc95, values, latest).</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">stats</span> <span class="pre">avg(duration_ms)</span> <span class="pre">perc95(duration_ms)</span> <span class="pre">by</span> <span class="pre">endpoint</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">eventstats</span></code></p></td>
+<td><p>Adds aggregate to each event without collapsing.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">eventstats</span> <span class="pre">avg(duration_ms)</span> <span class="pre">as</span> <span class="pre">avg_all</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">streamstats</span></code></p></td>
+<td><p>Running calculations in event order.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">streamstats</span> <span class="pre">count</span> <span class="pre">as</span> <span class="pre">seq</span> <span class="pre">by</span> <span class="pre">session_id</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">timechart</span></code></p></td>
+<td><p>Time-series aggregation.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">timechart</span> <span class="pre">span=5m</span> <span class="pre">count</span> <span class="pre">by</span> <span class="pre">status</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">chart</span></code></p></td>
+<td><p>Aggregate by two dimensions.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">chart</span> <span class="pre">count</span> <span class="pre">over</span> <span class="pre">service</span> <span class="pre">by</span> <span class="pre">level</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">top</span></code> / <code class="docutils literal notranslate"><span class="pre">rare</span></code></p></td>
+<td><p>Most/least common values.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">top</span> <span class="pre">limit=10</span> <span class="pre">exception</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rex</span></code></p></td>
+<td><p>Regex field extraction at search time.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">rex</span> <span class="pre">field=_raw</span> <span class="pre">&quot;orderId=(?&lt;orderId&gt;\\w+)&quot;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">spath</span></code></p></td>
+<td><p>Extract JSON/XML paths.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">spath</span> <span class="pre">input=payload</span> <span class="pre">path=customer.id</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">table</span></code> / <code class="docutils literal notranslate"><span class="pre">fields</span></code></p></td>
+<td><p>Choose output columns.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">table</span> <span class="pre">_time</span> <span class="pre">service</span> <span class="pre">message</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dedup</span></code></p></td>
+<td><p>Remove duplicates by field.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">dedup</span> <span class="pre">requestId</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lookup</span></code> / <code class="docutils literal notranslate"><span class="pre">inputlookup</span></code></p></td>
+<td><p>Enrich with CSV or KV store.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">lookup</span> <span class="pre">service_owners</span> <span class="pre">service</span> <span class="pre">OUTPUT</span> <span class="pre">team</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">join</span></code></p></td>
+<td><p>Join two result sets (limited, slow).</p></td>
+<td><p>Avoid for large data.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">transaction</span></code></p></td>
+<td><p>Group events into a transaction.</p></td>
+<td><p>Expensive. Prefer <code class="docutils literal notranslate"><span class="pre">stats</span></code> by ID.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bin</span></code></p></td>
+<td><p>Bucket values or time.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">bin</span> <span class="pre">_time</span> <span class="pre">span=1h</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fillnull</span></code></p></td>
+<td><p>Replace nulls.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">fillnull</span> <span class="pre">value=0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">append</span></code> / <code class="docutils literal notranslate"><span class="pre">appendcols</span></code> / <code class="docutils literal notranslate"><span class="pre">multisearch</span></code></p></td>
+<td><p>Combine searches.</p></td>
+<td><p>Use sparingly.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">map</span></code></p></td>
+<td><p>Run a search per result row.</p></td>
+<td><p>Slow, avoid.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tstats</span></code></p></td>
+<td><p>Fast stats from tsidx.</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">tstats</span> <span class="pre">count</span> <span class="pre">where</span> <span class="pre">index=app_prod</span> <span class="pre">by</span> <span class="pre">host</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="handy-eval-functions">
+<h3>3.4 Handy Eval Functions<a class="headerlink" href="#handy-eval-functions" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">if</span></code>, <code class="docutils literal notranslate"><span class="pre">case</span></code>, <code class="docutils literal notranslate"><span class="pre">coalesce</span></code>, <code class="docutils literal notranslate"><span class="pre">isnull</span></code>, <code class="docutils literal notranslate"><span class="pre">isnotnull</span></code>, <code class="docutils literal notranslate"><span class="pre">match</span></code>, <code class="docutils literal notranslate"><span class="pre">like</span></code>, <code class="docutils literal notranslate"><span class="pre">replace</span></code>, <code class="docutils literal notranslate"><span class="pre">substr</span></code>, <code class="docutils literal notranslate"><span class="pre">len</span></code>, <code class="docutils literal notranslate"><span class="pre">lower</span></code>, <code class="docutils literal notranslate"><span class="pre">upper</span></code>, <code class="docutils literal notranslate"><span class="pre">split</span></code>, <code class="docutils literal notranslate"><span class="pre">mvindex</span></code>, <code class="docutils literal notranslate"><span class="pre">mvcount</span></code>, <code class="docutils literal notranslate"><span class="pre">mvfilter</span></code>, <code class="docutils literal notranslate"><span class="pre">strftime</span></code>, <code class="docutils literal notranslate"><span class="pre">strptime</span></code>, <code class="docutils literal notranslate"><span class="pre">now</span></code>, <code class="docutils literal notranslate"><span class="pre">relative_time</span></code>, <code class="docutils literal notranslate"><span class="pre">round</span></code>, <code class="docutils literal notranslate"><span class="pre">floor</span></code>, <code class="docutils literal notranslate"><span class="pre">tonumber</span></code>, <code class="docutils literal notranslate"><span class="pre">tostring</span></code>, <code class="docutils literal notranslate"><span class="pre">json_extract</span></code>.</p>
+</section>
+<section id="time-modifiers">
+<h3>3.5 Time Modifiers<a class="headerlink" href="#time-modifiers" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">earliest=-15m</span> <span class="pre">latest=now</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">earliest=-1d&#64;d</span> <span class="pre">latest=&#64;d</span></code> (yesterday, snapped to midnight)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&#64;</span></code> snaps to a unit, for example <code class="docutils literal notranslate"><span class="pre">-1h&#64;h</span></code>.</p></li>
+<li><p>Compare periods using <code class="docutils literal notranslate"><span class="pre">timewrap</span></code> or two searches combined with <code class="docutils literal notranslate"><span class="pre">appendcols</span></code>.</p></li>
+</ul>
+</section>
+<section id="subsearch-gotchas">
+<h3>3.6 Subsearch Gotchas<a class="headerlink" href="#subsearch-gotchas" title="Link to this heading">#</a></h3>
+<p>Subsearches in square brackets run first and feed results to the outer search. Default limits are around 10,000 results and 60 seconds. If a subsearch silently truncates, the outer search returns wrong results. Mentioning this in an interview shows production experience.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="n">app_prod</span> <span class="p">[</span> <span class="n">search</span> <span class="n">index</span><span class="o">=</span><span class="n">app_prod</span> <span class="n">level</span><span class="o">=</span><span class="n">ERROR</span> <span class="n">earliest</span><span class="o">=-</span><span class="mi">15</span><span class="n">m</span> <span class="o">|</span> <span class="n">stats</span> <span class="n">count</span> <span class="n">by</span> <span class="n">traceId</span> <span class="o">|</span> <span class="n">fields</span> <span class="n">traceId</span> <span class="p">]</span>
+<span class="o">|</span> <span class="n">stats</span> <span class="n">values</span><span class="p">(</span><span class="n">service</span><span class="p">)</span> <span class="k">as</span> <span class="n">services</span> <span class="n">by</span> <span class="n">traceId</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="logging-from-java-and-spring-boot">
+<h2>4. Logging From Java and Spring Boot<a class="headerlink" href="#logging-from-java-and-spring-boot" title="Link to this heading">#</a></h2>
+<section id="principles">
+<h3>4.1 Principles<a class="headerlink" href="#principles" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Log structured JSON</strong>, one event per line. It avoids multi-line stack trace issues and makes fields searchable.</p></li>
+<li><p>Include consistent fields: timestamp, level, service name, environment, version, host/pod, thread, logger, message, traceId, spanId, correlationId/requestId, userId (hashed if needed), and business keys such as orderId.</p></li>
+<li><p>Put the stack trace in a single <code class="docutils literal notranslate"><span class="pre">exception</span></code> / <code class="docutils literal notranslate"><span class="pre">stack_trace</span></code> field.</p></li>
+<li><p><strong>Never log secrets or PII</strong> (passwords, tokens, card numbers, national IDs, full emails). Mask at the source. Splunk masking via <code class="docutils literal notranslate"><span class="pre">SEDCMD</span></code> is a safety net, not the plan.</p></li>
+<li><p>Use correct levels. ERROR means a human may need to act. Do not log expected business validation failures as ERROR.</p></li>
+<li><p>Log at boundaries (incoming request, outgoing call, key state changes), not inside tight loops.</p></li>
+<li><p>Control volume. Excess DEBUG in production is a cost and performance problem.</p></li>
+<li><p>Use <strong>MDC</strong> (Mapped Diagnostic Context) to attach request-scoped fields automatically.</p></li>
+</ul>
+</section>
+<section id="three-ways-to-get-logs-into-splunk">
+<h3>4.2 Three Ways to Get Logs Into Splunk<a class="headerlink" href="#three-ways-to-get-logs-into-splunk" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>File + Universal Forwarder</strong>: app writes JSON to a file (or stdout captured to a file) and the UF tails it. Reliable and decoupled. Common on VMs.</p></li>
+<li><p><strong>Container stdout + collector</strong>: in Kubernetes, write to stdout and let the <strong>Splunk OpenTelemetry Collector</strong> ship logs to Splunk. Preferred for containers.</p></li>
+<li><p><strong>Direct HEC from the app</strong> using a Logback/Log4j2 HEC appender (<code class="docutils literal notranslate"><span class="pre">splunk-library-javalogging</span></code>). Simple, but couples the app to Splunk availability. Use async with buffering and retry, and understand what happens when HEC is down.</p></li>
+</ol>
+<p>General recommendation: decouple the application from the log backend by writing to stdout or file and letting an agent ship.</p>
+</section>
+<section id="spring-boot-structured-logging">
+<h3>4.3 Spring Boot Structured Logging<a class="headerlink" href="#spring-boot-structured-logging" title="Link to this heading">#</a></h3>
+<p>Spring Boot 3.4 and later has built-in structured logging:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">logging</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">structured</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">format</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">console</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">logstash</span><span class="w">   </span><span class="c1"># or ecs, gelf</span>
+<span class="w">  </span><span class="nt">level</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">INFO</span>
+<span class="w">    </span><span class="nt">com.acme.orders</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">INFO</span>
+</pre></div>
+</div>
+<p>For older versions, use <code class="docutils literal notranslate"><span class="pre">logstash-logback-encoder</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;appender</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;JSON&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;ch.qos.logback.core.ConsoleAppender&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;encoder</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;net.logstash.logback.encoder.LogstashEncoder&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;customFields&gt;</span>{&quot;service&quot;:&quot;order-service&quot;,&quot;env&quot;:&quot;${ENV:-dev}&quot;}<span class="nt">&lt;/customFields&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/encoder&gt;</span>
+<span class="nt">&lt;/appender&gt;</span>
+<span class="nt">&lt;root</span><span class="w"> </span><span class="na">level=</span><span class="s">&quot;INFO&quot;</span><span class="nt">&gt;&lt;appender-ref</span><span class="w"> </span><span class="na">ref=</span><span class="s">&quot;JSON&quot;</span><span class="nt">/&gt;&lt;/root&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="direct-hec-appender-example-logback">
+<h3>4.4 Direct HEC Appender Example (Logback)<a class="headerlink" href="#direct-hec-appender-example-logback" title="Link to this heading">#</a></h3>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;appender</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;SPLUNK&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;com.splunk.logging.HttpEventCollectorLogbackAppender&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;url&gt;</span>https://splunk-hec.example.com:8088<span class="nt">&lt;/url&gt;</span>
+<span class="w">  </span><span class="nt">&lt;token&gt;</span>${SPLUNK_HEC_TOKEN}<span class="nt">&lt;/token&gt;</span>
+<span class="w">  </span><span class="nt">&lt;index&gt;</span>app_prod<span class="nt">&lt;/index&gt;</span>
+<span class="w">  </span><span class="nt">&lt;source&gt;</span>order-service<span class="nt">&lt;/source&gt;</span>
+<span class="w">  </span><span class="nt">&lt;sourcetype&gt;</span>_json<span class="nt">&lt;/sourcetype&gt;</span>
+<span class="w">  </span><span class="nt">&lt;batch_size_count&gt;</span>100<span class="nt">&lt;/batch_size_count&gt;</span>
+<span class="w">  </span><span class="nt">&lt;batch_interval&gt;</span>2000<span class="nt">&lt;/batch_interval&gt;</span>
+<span class="w">  </span><span class="nt">&lt;disableCertificateValidation&gt;</span>false<span class="nt">&lt;/disableCertificateValidation&gt;</span>
+<span class="w">  </span><span class="nt">&lt;layout</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;ch.qos.logback.classic.PatternLayout&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;pattern&gt;</span>%msg<span class="nt">&lt;/pattern&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/layout&gt;</span>
+<span class="nt">&lt;/appender&gt;</span>
+</pre></div>
+</div>
+<p>Keep the token in environment variables or a secret store, never in source control. Check the library’s current documentation for exact property names for your version.</p>
+</section>
+<section id="correlation-mdc-trace-ids-and-filters">
+<h3>4.5 Correlation: MDC, Trace IDs and Filters<a class="headerlink" href="#correlation-mdc-trace-ids-and-filters" title="Link to this heading">#</a></h3>
+<p>With Micrometer Tracing (Spring Boot 3) the <code class="docutils literal notranslate"><span class="pre">traceId</span></code> and <code class="docutils literal notranslate"><span class="pre">spanId</span></code> are placed in MDC automatically. For custom IDs:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CorrelationFilter</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">OncePerRequestFilter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nd">@Override</span>
+<span class="w">  </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">doFilterInternal</span><span class="p">(</span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">res</span><span class="p">,</span><span class="w"> </span><span class="n">FilterChain</span><span class="w"> </span><span class="n">chain</span><span class="p">)</span>
+<span class="w">      </span><span class="kd">throws</span><span class="w"> </span><span class="n">ServletException</span><span class="p">,</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">ofNullable</span><span class="p">(</span><span class="n">req</span><span class="p">.</span><span class="na">getHeader</span><span class="p">(</span><span class="s">&quot;X-Correlation-Id&quot;</span><span class="p">))</span>
+<span class="w">                        </span><span class="p">.</span><span class="na">orElse</span><span class="p">(</span><span class="n">UUID</span><span class="p">.</span><span class="na">randomUUID</span><span class="p">().</span><span class="na">toString</span><span class="p">());</span>
+<span class="w">    </span><span class="n">MDC</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;correlationId&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<span class="w">    </span><span class="n">res</span><span class="p">.</span><span class="na">setHeader</span><span class="p">(</span><span class="s">&quot;X-Correlation-Id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">chain</span><span class="p">.</span><span class="na">doFilter</span><span class="p">(</span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="n">res</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">MDC</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Propagate the header on outgoing calls (RestClient, WebClient, Feign) and into Kafka/JMS message headers. MDC is thread-local, so it is lost across <code class="docutils literal notranslate"><span class="pre">&#64;Async</span></code>, executors and reactive chains unless you propagate it (for example with a <code class="docutils literal notranslate"><span class="pre">TaskDecorator</span></code> or Reactor context propagation).</p>
+</section>
+<section id="metrics-and-traces-beyond-logs">
+<h3>4.6 Metrics and Traces Beyond Logs<a class="headerlink" href="#metrics-and-traces-beyond-logs" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Micrometer</strong> with Actuator exposes JVM, HTTP and custom metrics. Export via OpenTelemetry or to Splunk Observability Cloud.</p></li>
+<li><p><strong>Splunk Distribution of OpenTelemetry Java agent</strong>: attach with <code class="docutils literal notranslate"><span class="pre">-javaagent:splunk-otel-javaagent.jar</span></code> and set <code class="docutils literal notranslate"><span class="pre">OTEL_SERVICE_NAME</span></code> plus the exporter endpoint or Splunk access token and realm. It auto-instruments Spring MVC, JDBC, Kafka, HTTP clients and more with no code changes.</p></li>
+<li><p>Enable log-trace correlation so a log line in Splunk links to its trace in APM.</p></li>
+<li><p>Use <strong>AlwaysOn Profiling</strong> to find CPU and memory hotspots in production.</p></li>
+</ul>
+</section>
+</section>
+<section id="logging-from-net-microsoft-stack">
+<h2>5. Logging From .NET (Microsoft Stack)<a class="headerlink" href="#logging-from-net-microsoft-stack" title="Link to this heading">#</a></h2>
+<section id="options">
+<h3>5.1 Options<a class="headerlink" href="#options" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Serilog</strong> with <code class="docutils literal notranslate"><span class="pre">Serilog.Sinks.Splunk</span></code> (HEC). The most common choice.</p></li>
+<li><p><strong>NLog</strong> or <strong>log4net</strong> with HEC targets, or write to file for a Universal Forwarder.</p></li>
+<li><p><strong>Microsoft.Extensions.Logging (ILogger)</strong> as the abstraction, with Serilog as the provider.</p></li>
+<li><p><strong>OpenTelemetry .NET</strong> SDK exporting OTLP to the Splunk OTel Collector, or the Splunk Distribution of OpenTelemetry .NET for APM.</p></li>
+<li><p>On Windows servers, the Universal Forwarder can also ingest <strong>Windows Event Logs</strong>, <strong>IIS logs</strong>, <strong>performance counters</strong> and <strong>WMI</strong>.</p></li>
+</ul>
+</section>
+<section id="serilog-example">
+<h3>5.2 Serilog Example<a class="headerlink" href="#serilog-example" title="Link to this heading">#</a></h3>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="n">Log</span><span class="p">.</span><span class="n">Logger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LoggerConfiguration</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">MinimumLevel</span><span class="p">.</span><span class="n">Information</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">MinimumLevel</span><span class="p">.</span><span class="n">Override</span><span class="p">(</span><span class="s">&quot;Microsoft&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">LogEventLevel</span><span class="p">.</span><span class="n">Warning</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">Enrich</span><span class="p">.</span><span class="n">FromLogContext</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="n">Enrich</span><span class="p">.</span><span class="n">WithProperty</span><span class="p">(</span><span class="s">&quot;service&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;payments-api&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">WriteTo</span><span class="p">.</span><span class="n">EventCollector</span><span class="p">(</span>
+<span class="w">        </span><span class="n">splunkHost</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://splunk-hec.example.com:8088&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">eventCollectorToken</span><span class="p">:</span><span class="w"> </span><span class="n">Environment</span><span class="p">.</span><span class="n">GetEnvironmentVariable</span><span class="p">(</span><span class="s">&quot;SPLUNK_HEC_TOKEN&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">index</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;app_prod&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">CreateLogger</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Use structured message templates (<code class="docutils literal notranslate"><span class="pre">Log.Information(&quot;Order</span> <span class="pre">{OrderId}</span> <span class="pre">paid&quot;,</span> <span class="pre">orderId)</span></code>), not string interpolation, so properties become searchable fields. <code class="docutils literal notranslate"><span class="pre">LogContext.PushProperty</span></code> is the .NET equivalent of MDC. ASP.NET Core adds trace and span IDs to log scopes when using <code class="docutils literal notranslate"><span class="pre">Activity</span></code>.</p>
+</section>
+<section id="mapping-between-java-and-net-concepts">
+<h3>5.3 Mapping Between Java and .NET Concepts<a class="headerlink" href="#mapping-between-java-and-net-concepts" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Concept</p></th>
+<th class="head"><p>Java / Spring Boot</p></th>
+<th class="head"><p>.NET</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Logging facade</p></td>
+<td><p>SLF4J</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ILogger</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Implementation</p></td>
+<td><p>Logback, Log4j2</p></td>
+<td><p>Serilog, NLog</p></td>
+</tr>
+<tr class="row-even"><td><p>Request-scoped context</p></td>
+<td><p>MDC</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LogContext</span></code> / <code class="docutils literal notranslate"><span class="pre">ILogger.BeginScope</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Metrics</p></td>
+<td><p>Micrometer</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">System.Diagnostics.Metrics</span></code>, OpenTelemetry</p></td>
+</tr>
+<tr class="row-even"><td><p>Tracing</p></td>
+<td><p>Micrometer Tracing, OTel Java agent</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Activity</span></code>, OTel .NET</p></td>
+</tr>
+<tr class="row-odd"><td><p>Health/metrics endpoints</p></td>
+<td><p>Actuator</p></td>
+<td><p>Health checks middleware</p></td>
+</tr>
+<tr class="row-even"><td><p>HEC integration</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">splunk-library-javalogging</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Serilog.Sinks.Splunk</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="day-to-day-developer-use-cases-with-spl">
+<h2>6. Day-to-Day Developer Use Cases With SPL<a class="headerlink" href="#day-to-day-developer-use-cases-with-spl" title="Link to this heading">#</a></h2>
+<p>Adjust field names to your own log schema.</p>
+<section id="find-recent-errors-by-service">
+<h3>6.1 Find Recent Errors by Service<a class="headerlink" href="#find-recent-errors-by-service" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="n">app_prod</span> <span class="n">env</span><span class="o">=</span><span class="n">prod</span> <span class="n">level</span><span class="o">=</span><span class="n">ERROR</span> <span class="n">earliest</span><span class="o">=-</span><span class="mi">1</span><span class="n">h</span>
+<span class="o">|</span> <span class="n">stats</span> <span class="n">count</span> <span class="n">by</span> <span class="n">service</span><span class="p">,</span> <span class="n">exception</span>
+<span class="o">|</span> <span class="n">sort</span> <span class="o">-</span> <span class="n">count</span>
+</pre></div>
+</div>
+</section>
+<section id="trace-a-single-request-end-to-end">
+<h3>6.2 Trace a Single Request End to End<a class="headerlink" href="#trace-a-single-request-end-to-end" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="n">app_prod</span> <span class="p">(</span><span class="n">correlationId</span><span class="o">=</span><span class="s2">&quot;abc-123&quot;</span> <span class="n">OR</span> <span class="n">traceId</span><span class="o">=</span><span class="s2">&quot;abc-123&quot;</span><span class="p">)</span>
+<span class="o">|</span> <span class="n">sort</span> <span class="mi">0</span> <span class="n">_time</span>
+<span class="o">|</span> <span class="n">table</span> <span class="n">_time</span> <span class="n">service</span> <span class="n">level</span> <span class="n">message</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">sort</span> <span class="pre">0</span></code> to avoid the default 10,000 row limit.</p>
+</section>
+<section id="latency-percentiles-per-endpoint">
+<h3>6.3 Latency Percentiles per Endpoint<a class="headerlink" href="#latency-percentiles-per-endpoint" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="n">app_prod</span> <span class="n">sourcetype</span><span class="o">=</span><span class="n">access_json</span> <span class="n">earliest</span><span class="o">=-</span><span class="mi">24</span><span class="n">h</span>
+<span class="o">|</span> <span class="n">stats</span> <span class="n">count</span> <span class="n">perc50</span><span class="p">(</span><span class="n">duration_ms</span><span class="p">)</span> <span class="k">as</span> <span class="n">p50</span> <span class="n">perc95</span><span class="p">(</span><span class="n">duration_ms</span><span class="p">)</span> <span class="k">as</span> <span class="n">p95</span> <span class="n">perc99</span><span class="p">(</span><span class="n">duration_ms</span><span class="p">)</span> <span class="k">as</span> <span class="n">p99</span> <span class="n">by</span> <span class="n">uri_template</span>
+<span class="o">|</span> <span class="n">sort</span> <span class="o">-</span> <span class="n">p95</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">uri_template</span></code> (for example <code class="docutils literal notranslate"><span class="pre">/orders/{id}</span></code>) rather than raw URIs to avoid high-cardinality output.</p>
+</section>
+<section id="error-rate-over-time">
+<h3>6.4 Error Rate Over Time<a class="headerlink" href="#error-rate-over-time" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="n">app_prod</span> <span class="n">service</span><span class="o">=</span><span class="n">order</span><span class="o">-</span><span class="n">service</span> <span class="n">earliest</span><span class="o">=-</span><span class="mi">6</span><span class="n">h</span>
+<span class="o">|</span> <span class="nb">eval</span> <span class="n">is_error</span><span class="o">=</span><span class="k">if</span><span class="p">(</span><span class="n">status</span><span class="o">&gt;=</span><span class="mi">500</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="o">|</span> <span class="n">timechart</span> <span class="n">span</span><span class="o">=</span><span class="mi">5</span><span class="n">m</span> <span class="nb">sum</span><span class="p">(</span><span class="n">is_error</span><span class="p">)</span> <span class="k">as</span> <span class="n">errors</span> <span class="n">count</span> <span class="k">as</span> <span class="n">total</span>
+<span class="o">|</span> <span class="nb">eval</span> <span class="n">error_rate</span><span class="o">=</span><span class="nb">round</span><span class="p">(</span><span class="n">errors</span><span class="o">/</span><span class="n">total</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="compare-before-and-after-a-deployment">
+<h3>6.5 Compare Before and After a Deployment<a class="headerlink" href="#compare-before-and-after-a-deployment" title="Link to this heading">#</a></h3>
+<p>If you log the app <code class="docutils literal notranslate"><span class="pre">version</span></code> field:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="n">app_prod</span> <span class="n">service</span><span class="o">=</span><span class="n">order</span><span class="o">-</span><span class="n">service</span> <span class="n">level</span><span class="o">=</span><span class="n">ERROR</span> <span class="n">earliest</span><span class="o">=-</span><span class="mi">2</span><span class="n">h</span>
+<span class="o">|</span> <span class="n">stats</span> <span class="n">count</span> <span class="n">by</span> <span class="n">version</span><span class="p">,</span> <span class="n">exception</span>
+</pre></div>
+</div>
+</section>
+<section id="new-exceptions-that-did-not-exist-yesterday">
+<h3>6.6 New Exceptions That Did Not Exist Yesterday<a class="headerlink" href="#new-exceptions-that-did-not-exist-yesterday" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="n">app_prod</span> <span class="n">level</span><span class="o">=</span><span class="n">ERROR</span> <span class="n">earliest</span><span class="o">=-</span><span class="mi">1</span><span class="n">d</span><span class="nd">@d</span> <span class="n">latest</span><span class="o">=</span><span class="n">now</span>
+<span class="o">|</span> <span class="nb">eval</span> <span class="n">period</span><span class="o">=</span><span class="k">if</span><span class="p">(</span><span class="n">_time</span><span class="o">&gt;=</span><span class="n">relative_time</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="s2">&quot;@d&quot;</span><span class="p">),</span><span class="s2">&quot;today&quot;</span><span class="p">,</span><span class="s2">&quot;yesterday&quot;</span><span class="p">)</span>
+<span class="o">|</span> <span class="n">stats</span> <span class="n">count</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="s2">&quot;today&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">today</span> <span class="n">count</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="s2">&quot;yesterday&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">yesterday</span> <span class="n">by</span> <span class="n">exception</span>
+<span class="o">|</span> <span class="n">where</span> <span class="n">yesterday</span><span class="o">=</span><span class="mi">0</span> <span class="n">AND</span> <span class="n">today</span><span class="o">&gt;</span><span class="mi">0</span>
+</pre></div>
+</div>
+</section>
+<section id="slow-downstream-dependency">
+<h3>6.7 Slow Downstream Dependency<a class="headerlink" href="#slow-downstream-dependency" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="n">app_prod</span> <span class="n">event</span><span class="o">=</span><span class="n">outbound_call</span> <span class="n">earliest</span><span class="o">=-</span><span class="mi">1</span><span class="n">h</span>
+<span class="o">|</span> <span class="n">stats</span> <span class="n">avg</span><span class="p">(</span><span class="n">duration_ms</span><span class="p">)</span> <span class="n">perc95</span><span class="p">(</span><span class="n">duration_ms</span><span class="p">)</span> <span class="n">count</span> <span class="n">by</span> <span class="n">target_service</span>
+<span class="o">|</span> <span class="n">sort</span> <span class="o">-</span> <span class="n">perc95</span><span class="p">(</span><span class="n">duration_ms</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="parse-unstructured-logs">
+<h3>6.8 Parse Unstructured Logs<a class="headerlink" href="#parse-unstructured-logs" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="n">legacy</span> <span class="n">sourcetype</span><span class="o">=</span><span class="n">app_log</span> <span class="s2">&quot;Payment failed&quot;</span>
+<span class="o">|</span> <span class="n">rex</span> <span class="s2">&quot;orderId=(?&lt;orderId&gt;</span><span class="se">\\</span><span class="s2">d+)</span><span class="se">\\</span><span class="s2">s+reason=(?&lt;reason&gt;[^,]+)&quot;</span>
+<span class="o">|</span> <span class="n">stats</span> <span class="n">count</span> <span class="n">by</span> <span class="n">reason</span>
+</pre></div>
+</div>
+</section>
+<section id="business-questions">
+<h3>6.9 Business Questions<a class="headerlink" href="#business-questions" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="n">app_prod</span> <span class="n">event</span><span class="o">=</span><span class="s2">&quot;order_created&quot;</span> <span class="n">earliest</span><span class="o">=-</span><span class="mi">7</span><span class="n">d</span><span class="nd">@d</span>
+<span class="o">|</span> <span class="n">timechart</span> <span class="n">span</span><span class="o">=</span><span class="mi">1</span><span class="n">d</span> <span class="n">count</span> <span class="n">by</span> <span class="n">channel</span>
+</pre></div>
+</div>
+<p>Developers often get asked “how many orders failed payment last Tuesday?” Good structured logs let you answer in seconds.</p>
+</section>
+</section>
+<section id="alerts-dashboards-and-reports">
+<h2>7. Alerts, Dashboards and Reports<a class="headerlink" href="#alerts-dashboards-and-reports" title="Link to this heading">#</a></h2>
+<section id="alerts">
+<h3>7.1 Alerts<a class="headerlink" href="#alerts" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Scheduled alert</strong>: runs on a cron schedule, triggers when conditions are met (for example results &gt; 0).</p></li>
+<li><p><strong>Real-time alert</strong>: runs continuously. Expensive, use rarely. Prefer scheduled alerts every 1 to 5 minutes.</p></li>
+<li><p><strong>Trigger conditions</strong>: number of results, hosts, sources, or a custom condition. Choose “once” or “for each result”.</p></li>
+<li><p><strong>Throttling</strong> suppresses repeat alerts for a window so you do not flood the on-call.</p></li>
+<li><p><strong>Actions</strong>: email, webhook (PagerDuty, Slack, Teams, ServiceNow), script, Triggered Alerts list.</p></li>
+</ul>
+<p>Example alert search (error rate above threshold):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="n">app_prod</span> <span class="n">service</span><span class="o">=</span><span class="n">payments</span> <span class="n">earliest</span><span class="o">=-</span><span class="mi">5</span><span class="n">m</span>
+<span class="o">|</span> <span class="n">stats</span> <span class="n">count</span> <span class="k">as</span> <span class="n">total</span> <span class="n">count</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s2">&quot;ERROR&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">errors</span>
+<span class="o">|</span> <span class="nb">eval</span> <span class="n">rate</span><span class="o">=</span><span class="nb">round</span><span class="p">(</span><span class="n">errors</span><span class="o">/</span><span class="n">total</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">|</span> <span class="n">where</span> <span class="n">total</span><span class="o">&gt;</span><span class="mi">50</span> <span class="n">AND</span> <span class="n">rate</span><span class="o">&gt;</span><span class="mi">5</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">total&gt;50</span></code> guard avoids noise from low-traffic periods.</p>
+</section>
+<section id="good-alerting-practice">
+<h3>7.2 Good Alerting Practice<a class="headerlink" href="#good-alerting-practice" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Alert on symptoms users feel (error rate, latency, saturation), not every exception.</p></li>
+<li><p>Every alert needs an owner, a runbook link and a clear severity.</p></li>
+<li><p>Review noisy alerts regularly. Alert fatigue is a reliability risk.</p></li>
+<li><p>Use SLO or burn-rate style alerts where possible.</p></li>
+</ul>
+</section>
+<section id="dashboards">
+<h3>7.3 Dashboards<a class="headerlink" href="#dashboards" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Use <strong>Dashboard Studio</strong> (modern) or Classic Simple XML dashboards.</p></li>
+<li><p>Use <strong>tokens</strong> for input filters (time range, environment, service) and drilldowns.</p></li>
+<li><p>Use <strong>base searches</strong> and <strong>post-process searches</strong> so many panels reuse one expensive query.</p></li>
+<li><p>Schedule or accelerate heavy panels.</p></li>
+<li><p>Put the golden signals first: traffic, errors, latency, saturation.</p></li>
+</ul>
+</section>
+<section id="other-knowledge-objects">
+<h3>7.4 Other Knowledge Objects<a class="headerlink" href="#other-knowledge-objects" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Macros</strong> to reuse SPL snippets.</p></li>
+<li><p><strong>Lookups</strong> to map service to owner, error code to description, or IP to location.</p></li>
+<li><p><strong>Event types and tags</strong> to group events logically.</p></li>
+<li><p><strong>Saved searches and reports</strong> shared via apps with role-based permissions.</p></li>
+</ul>
+</section>
+</section>
+<section id="splunk-observability-cloud-brief">
+<h2>8. Splunk Observability Cloud (Brief)<a class="headerlink" href="#splunk-observability-cloud-brief" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>APM</strong>: service map, trace analyzer, Tag Spotlight, error and latency breakdowns. Receives traces via OpenTelemetry.</p></li>
+<li><p><strong>Infrastructure Monitoring</strong>: metrics from hosts, containers and Kubernetes, with real-time streaming and detectors.</p></li>
+<li><p><strong>RUM</strong>: browser and mobile user experience monitoring.</p></li>
+<li><p><strong>Synthetics</strong>: scripted uptime and journey checks.</p></li>
+<li><p><strong>Log Observer / Log Observer Connect</strong>: view Splunk logs in context of traces and metrics.</p></li>
+<li><p><strong>Splunk OpenTelemetry Collector</strong>: the standard agent for logs, metrics and traces, deployed on hosts or via Helm in Kubernetes.</p></li>
+</ul>
+<p>Interview angle: explain the three pillars (logs, metrics, traces), when each is the right tool, and how correlation by trace ID ties them together.</p>
+</section>
+<section id="security-governance-and-cost">
+<h2>9. Security, Governance and Cost<a class="headerlink" href="#security-governance-and-cost" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>RBAC</strong>: roles control index access and capabilities. Separate prod and non-prod indexes.</p></li>
+<li><p><strong>Data masking</strong>: <code class="docutils literal notranslate"><span class="pre">SEDCMD</span></code> in props.conf or ingest-time rules at a heavy forwarder or OTel collector.</p></li>
+<li><p><strong>TLS</strong> between forwarders and indexers, and for HEC. Rotate HEC tokens.</p></li>
+<li><p><strong>Retention</strong>: set per index (<code class="docutils literal notranslate"><span class="pre">frozenTimePeriodInSecs</span></code>, size limits). Align with compliance requirements.</p></li>
+<li><p><strong>Cost control</strong>: reduce noisy logs, drop health-check lines, sample debug logs, route low-value data to cheaper indexes, and monitor licence usage in the Monitoring Console.</p></li>
+<li><p><strong>Compliance</strong>: avoid PII in logs. If it must be logged, mask or tokenise it.</p></li>
+</ul>
+</section>
+<section id="interview-questions-and-model-answers">
+<h2>10. Interview Questions and Model Answers<a class="headerlink" href="#interview-questions-and-model-answers" title="Link to this heading">#</a></h2>
+<section id="architecture-and-concepts">
+<h3>10.1 Architecture and Concepts<a class="headerlink" href="#architecture-and-concepts" title="Link to this heading">#</a></h3>
+<p><strong>Q1. Explain Splunk architecture.</strong> Forwarders collect and send data, indexers parse and store it in buckets, and search heads coordinate searches across indexers. Supporting components are the deployment server, cluster manager and license manager. Applications can also send via HEC or syslog.</p>
+<p><strong>Q2. Universal Forwarder vs Heavy Forwarder?</strong> UF is lightweight, with minimal CPU and memory, and forwards mostly unparsed data. HF is a full instance that can parse, filter, mask, route and run scripted inputs or add-ons, at higher resource cost. Use UF by default and HF when you need parsing or routing before data reaches indexers.</p>
+<p><strong>Q3. What is HEC and when would you use it?</strong> HTTP Event Collector is a token-authenticated HTTP(S) endpoint for sending events directly. Good for cloud-native apps, serverless and containers. Trade-offs are coupling to Splunk availability and the need for buffering and retries on the client side.</p>
+<p><strong>Q4. Index time vs search time?</strong> Index time covers parsing, timestamping, host/source/sourcetype and index-time transforms. Search time covers field extraction, lookups, tags and calculated fields. Splunk favours search time for flexibility. Index-time fields are fast but permanent and increase storage.</p>
+<p><strong>Q5. Explain bucket lifecycle.</strong> Hot, warm, cold, frozen, thawed. Hot is actively written, warm is rolled and searchable, cold sits on cheaper storage, frozen is deleted or archived by retention policy, and thawed is restored from archive.</p>
+<p><strong>Q6. What is a sourcetype and why does it matter?</strong> It defines how Splunk parses data (line breaking, timestamps, extractions). Wrong sourcetypes cause broken events and bad timestamps.</p>
+<p><strong>Q7. How does indexer clustering work?</strong> Indexers replicate buckets based on the replication factor, while the search factor determines how many copies are searchable. The cluster manager coordinates peers and handles failures.</p>
+<p><strong>Q8. What are knowledge objects?</strong> Saved searches, field extractions, lookups, tags, event types, macros, data models and workflow actions. They are shared through apps with permissions.</p>
+</section>
+<section id="spl">
+<h3>10.2 SPL<a class="headerlink" href="#spl" title="Link to this heading">#</a></h3>
+<p><strong>Q9. <code class="docutils literal notranslate"><span class="pre">stats</span></code> vs <code class="docutils literal notranslate"><span class="pre">eventstats</span></code> vs <code class="docutils literal notranslate"><span class="pre">streamstats</span></code>?</strong> <code class="docutils literal notranslate"><span class="pre">stats</span></code> collapses events into aggregate rows. <code class="docutils literal notranslate"><span class="pre">eventstats</span></code> adds aggregates to every original event. <code class="docutils literal notranslate"><span class="pre">streamstats</span></code> computes running values in event order.</p>
+<p><strong>Q10. <code class="docutils literal notranslate"><span class="pre">stats</span></code> vs <code class="docutils literal notranslate"><span class="pre">transaction</span></code>?</strong> <code class="docutils literal notranslate"><span class="pre">transaction</span></code> groups events by fields and time constraints and keeps raw events, but is memory-heavy and slow. <code class="docutils literal notranslate"><span class="pre">stats</span></code> by an ID with <code class="docutils literal notranslate"><span class="pre">min(_time)</span></code>, <code class="docutils literal notranslate"><span class="pre">max(_time)</span></code> and <code class="docutils literal notranslate"><span class="pre">values()</span></code> is usually faster and scales better.</p>
+<p><strong>Q11. Why avoid <code class="docutils literal notranslate"><span class="pre">join</span></code>?</strong> It runs a subsearch with result and time limits, is not distributed efficiently, and often truncates silently. Prefer <code class="docutils literal notranslate"><span class="pre">stats</span></code> after combining datasets with a shared key, or use <code class="docutils literal notranslate"><span class="pre">lookup</span></code>.</p>
+<p><strong>Q12. How do you speed up a slow search?</strong> Narrow index, sourcetype and time range. Filter early. Drop unneeded fields. Replace transaction/join with stats. Use <code class="docutils literal notranslate"><span class="pre">tstats</span></code>, summary indexing or accelerated data models. Avoid leading wildcards. Check the job inspector to see where time is spent.</p>
+<p><strong>Q13. What does <code class="docutils literal notranslate"><span class="pre">tstats</span></code> do?</strong> Runs statistical queries directly on index metadata and accelerated data, which makes it much faster than raw event searches. It works with indexed fields or accelerated data models.</p>
+<p><strong>Q14. How do you extract a field from raw text?</strong> Use <code class="docutils literal notranslate"><span class="pre">rex</span></code> for ad hoc searches, or define a field extraction (props/transforms or the Field Extractor UI) for permanent use. For JSON use <code class="docutils literal notranslate"><span class="pre">spath</span></code> or automatic extraction with <code class="docutils literal notranslate"><span class="pre">KV_MODE=json</span></code>.</p>
+<p><strong>Q15. How do you calculate p95 latency?</strong> <code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">stats</span> <span class="pre">perc95(duration_ms)</span> <span class="pre">as</span> <span class="pre">p95</span> <span class="pre">by</span> <span class="pre">endpoint</span></code>.</p>
+<p><strong>Q16. What are subsearch limits?</strong> Defaults are around 10,000 results and 60 seconds runtime. Results beyond that are silently dropped, which can cause wrong answers.</p>
+<p><strong>Q17. What is the difference between <code class="docutils literal notranslate"><span class="pre">search</span></code> and <code class="docutils literal notranslate"><span class="pre">where</span></code>?</strong> <code class="docutils literal notranslate"><span class="pre">search</span></code> uses search syntax (case-insensitive field matches, wildcards). <code class="docutils literal notranslate"><span class="pre">where</span></code> evaluates eval expressions (case-sensitive string comparisons, functions, numeric operations).</p>
+<p><strong>Q18. How do you find hosts that stopped logging?</strong> Use <code class="docutils literal notranslate"><span class="pre">stats</span> <span class="pre">latest(_time)</span></code> by host and compare with now, or compare against a lookup of expected hosts. <code class="docutils literal notranslate"><span class="pre">|</span> <span class="pre">metadata</span> <span class="pre">type=hosts</span></code> is a quick option too.</p>
+</section>
+<section id="java-spring-boot-and-net-usage">
+<h3>10.3 Java, Spring Boot and .NET Usage<a class="headerlink" href="#java-spring-boot-and-net-usage" title="Link to this heading">#</a></h3>
+<p><strong>Q19. How do you design logging for microservices so Splunk is useful?</strong> Structured JSON logs, consistent schema across services, correlation and trace IDs propagated across HTTP and messaging, service/env/version fields, sensible levels, no PII, and a shipping approach that decouples the app from Splunk (stdout/file with an agent).</p>
+<p><strong>Q20. How do you trace a request across services in Splunk?</strong> Propagate <code class="docutils literal notranslate"><span class="pre">traceId</span></code> (W3C <code class="docutils literal notranslate"><span class="pre">traceparent</span></code>) or a correlation ID via headers and message headers, include it in MDC or log scope, then search by that ID and sort by time. With OpenTelemetry, use the APM trace view and link to logs.</p>
+<p><strong>Q21. MDC is lost in async code. How do you handle it?</strong> Copy the MDC context map to the worker thread using a <code class="docutils literal notranslate"><span class="pre">TaskDecorator</span></code> or wrapped executor. In reactive code use Reactor context propagation (the Micrometer context-propagation library) so trace and correlation IDs survive thread hops.</p>
+<p><strong>Q22. How do you handle multi-line stack traces?</strong> Preferably log JSON so the stack trace is one field. Otherwise set <code class="docutils literal notranslate"><span class="pre">LINE_BREAKER</span></code> and <code class="docutils literal notranslate"><span class="pre">SHOULD_LINEMERGE=false</span></code> in props.conf using a regex matching the timestamp at line start.</p>
+<p><strong>Q23. What happens if Splunk or HEC is down?</strong> With a direct appender, you rely on client buffering and retry, and risk dropped logs or blocked threads if the appender is synchronous. With file/stdout plus a forwarder, the agent buffers (and persistent queues can be enabled), so the application is isolated. This is why decoupling is the usual choice.</p>
+<p><strong>Q24. How would you configure Serilog for Splunk?</strong> Use <code class="docutils literal notranslate"><span class="pre">Serilog.Sinks.Splunk</span></code> with the HEC URL and token from configuration or secrets, enrich with service, environment and trace properties, use structured templates, and set minimum levels with overrides for noisy <code class="docutils literal notranslate"><span class="pre">Microsoft.*</span></code> namespaces.</p>
+<p><strong>Q25. How do you stop sensitive data from reaching Splunk?</strong> Prevent it in code (do not log it, use masking converters or Serilog destructuring policies), reinforce with ingest-time masking (<code class="docutils literal notranslate"><span class="pre">SEDCMD</span></code>, HF rules, OTel processors), restrict index access by role, and review logging in code reviews and tests.</p>
+<p><strong>Q26. How do you use Splunk during a performance investigation?</strong> Start with error rate and latency percentiles by endpoint, find the time the problem began, correlate with deployments (version field), check dependency latency, look at JVM/GC or CLR metrics, then drill into a slow trace and its logs. Confirm the fix by comparing before and after.</p>
+<p><strong>Q27. Log-based metrics vs real metrics?</strong> Logs are rich and good for debugging but expensive to aggregate at scale. Metrics (Micrometer or OpenTelemetry) are cheap, pre-aggregated and better for alerting and dashboards. Use logs for investigation, metrics for monitoring, and traces for request flow.</p>
+</section>
+<section id="operations-and-design">
+<h3>10.4 Operations and Design<a class="headerlink" href="#operations-and-design" title="Link to this heading">#</a></h3>
+<p><strong>Q28. How do you reduce Splunk licence cost?</strong> Drop health-check and noisy debug logs at source, lower log levels in production, filter at HF or collector, avoid duplicate logging (app and platform), send metrics to metrics indexes, and apply different retention per index.</p>
+<p><strong>Q29. How do you design indexes?</strong> Separate by retention, access and data volume: for example by environment and data type (<code class="docutils literal notranslate"><span class="pre">app_prod</span></code>, <code class="docutils literal notranslate"><span class="pre">app_nonprod</span></code>, <code class="docutils literal notranslate"><span class="pre">security</span></code>, <code class="docutils literal notranslate"><span class="pre">metrics_prod</span></code>). Do not create one index per service, which creates management overhead.</p>
+<p><strong>Q30. How do you set up a good alert?</strong> Define the user-facing symptom, choose a scheduled search with a sensible window, add minimum-volume guards, throttle, route to the right on-call channel, and attach a runbook. Review false positives after each incident.</p>
+<p><strong>Q31. What is the Monitoring Console?</strong> A built-in app that shows health and performance of the Splunk deployment: indexing rate, search load, licence usage, forwarder connectivity and queue status.</p>
+<p><strong>Q32. Splunk vs ELK vs Datadog?</strong> Splunk: very strong search language, enterprise security use cases, mature governance, but cost scales with ingest. ELK/OpenSearch: open source, flexible, more operational effort. Datadog: SaaS with a strong integrated APM and infrastructure experience, priced per host and per volume. The right choice depends on cost model, existing tooling and team skills.</p>
+</section>
+<section id="scenario-questions">
+<h3>10.5 Scenario Questions<a class="headerlink" href="#scenario-questions" title="Link to this heading">#</a></h3>
+<p><strong>S1. Production API latency doubled in the last hour. Walk me through it.</strong></p>
+<ol class="arabic simple">
+<li><p>Confirm scope: <code class="docutils literal notranslate"><span class="pre">timechart</span> <span class="pre">perc95(duration_ms)</span> <span class="pre">by</span> <span class="pre">service</span></code> to see which services are affected and when it started.</p></li>
+<li><p>Compare with the deployment time using a <code class="docutils literal notranslate"><span class="pre">version</span></code> field.</p></li>
+<li><p>Break down by endpoint and by downstream dependency (<code class="docutils literal notranslate"><span class="pre">target_service</span></code>).</p></li>
+<li><p>Check error rate, timeouts, retries, and thread pool or connection pool saturation messages.</p></li>
+<li><p>Pull a slow trace (APM) or search by <code class="docutils literal notranslate"><span class="pre">traceId</span></code> for a slow request and read its logs.</p></li>
+<li><p>Check infrastructure metrics (CPU, GC pauses, DB connections).</p></li>
+<li><p>Mitigate (rollback, scale, circuit breaker), then write up the root cause.</p></li>
+</ol>
+<p><strong>S2. Logs for one service stopped appearing in Splunk.</strong> Check whether the app is still logging (pod or VM logs), whether the forwarder or collector is running and can read the file, the <code class="docutils literal notranslate"><span class="pre">inputs.conf</span></code> path, forwarder connectivity (<code class="docutils literal notranslate"><span class="pre">splunkd.log</span></code> and the <code class="docutils literal notranslate"><span class="pre">_internal</span></code> index), HEC token or index permission errors, blocked queues, and licence violations. Use <code class="docutils literal notranslate"><span class="pre">index=_internal</span></code> to see forwarder and HEC errors.</p>
+<p><strong>S3. Timestamps are wrong or events are merged.</strong> Check <code class="docutils literal notranslate"><span class="pre">TIME_PREFIX</span></code>, <code class="docutils literal notranslate"><span class="pre">TIME_FORMAT</span></code>, <code class="docutils literal notranslate"><span class="pre">MAX_TIMESTAMP_LOOKAHEAD</span></code>, time zone settings and <code class="docutils literal notranslate"><span class="pre">LINE_BREAKER</span></code>. Fix in props.conf on the first full Splunk instance in the data path (heavy forwarder or indexer), then test with fresh data.</p>
+<p><strong>S4. Design logging for a new set of 20 Spring Boot microservices.</strong> A shared logging library or Spring Boot starter that configures JSON output, MDC fields and masking. A common field schema. Trace propagation with OpenTelemetry. One or two indexes per environment. OTel Collector or UF shipping. Standard dashboards and alerts kept as code (saved searches in version control). Guidelines on levels and volume, plus a PII review.</p>
+<p><strong>S5. Find customers affected by a failed batch job.</strong> Search for the job’s failure events by <code class="docutils literal notranslate"><span class="pre">jobId</span></code>, extract <code class="docutils literal notranslate"><span class="pre">customerId</span></code> with <code class="docutils literal notranslate"><span class="pre">rex</span></code> or <code class="docutils literal notranslate"><span class="pre">spath</span></code>, <code class="docutils literal notranslate"><span class="pre">dedup</span></code> it, use <code class="docutils literal notranslate"><span class="pre">lookup</span></code> to enrich with region or contact data if allowed, and export the result or schedule a report. Mention PII handling.</p>
+</section>
+</section>
+<section id="quick-cheat-sheet">
+<h2>11. Quick Cheat Sheet<a class="headerlink" href="#quick-cheat-sheet" title="Link to this heading">#</a></h2>
+<p><strong>Search skeleton</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=&lt;</span><span class="n">idx</span><span class="o">&gt;</span> <span class="n">sourcetype</span><span class="o">=&lt;</span><span class="n">st</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">keywords</span><span class="o">&gt;</span> <span class="n">earliest</span><span class="o">=-</span><span class="mi">1</span><span class="n">h</span>
+<span class="o">|</span> <span class="n">fields</span> <span class="o">&lt;</span><span class="n">needed</span> <span class="n">fields</span><span class="o">&gt;</span>
+<span class="o">|</span> <span class="nb">eval</span> <span class="o">...</span>
+<span class="o">|</span> <span class="n">stats</span> <span class="o">&lt;</span><span class="n">agg</span><span class="o">&gt;</span> <span class="n">by</span> <span class="o">&lt;</span><span class="n">field</span><span class="o">&gt;</span>
+<span class="o">|</span> <span class="n">sort</span> <span class="o">-</span> <span class="o">&lt;</span><span class="n">field</span><span class="o">&gt;</span>
+<span class="o">|</span> <span class="n">head</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<p><strong>Remember</strong></p>
+<ul class="simple">
+<li><p>Time range, index and sourcetype first.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stats</span></code> beats <code class="docutils literal notranslate"><span class="pre">transaction</span></code> and <code class="docutils literal notranslate"><span class="pre">join</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sort</span> <span class="pre">0</span></code> removes the 10,000 row default limit.</p></li>
+<li><p>JSON logs: <code class="docutils literal notranslate"><span class="pre">spath</span></code> or automatic key-value extraction.</p></li>
+<li><p>Percentiles: <code class="docutils literal notranslate"><span class="pre">perc95(field)</span></code>.</p></li>
+<li><p>Trends: <code class="docutils literal notranslate"><span class="pre">timechart</span> <span class="pre">span=5m</span></code>.</p></li>
+<li><p>Debug the platform with <code class="docutils literal notranslate"><span class="pre">index=_internal</span></code>.</p></li>
+<li><p>Do not log PII. Mask at source.</p></li>
+<li><p>Decouple apps from Splunk, with buffering and retry.</p></li>
+<li><p>Include <code class="docutils literal notranslate"><span class="pre">traceId</span></code>, <code class="docutils literal notranslate"><span class="pre">service</span></code>, <code class="docutils literal notranslate"><span class="pre">env</span></code> and <code class="docutils literal notranslate"><span class="pre">version</span></code> in every log line.</p></li>
+</ul>
+</section>
+<section id="seven-day-preparation-plan">
+<h2>12. Seven-Day Preparation Plan<a class="headerlink" href="#seven-day-preparation-plan" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Day</p></th>
+<th class="head"><p>Focus</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Architecture, data pipeline, terminology. Read sections 2 and 9 and explain them aloud.</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>SPL basics: stats, eval, rex, timechart, top. Practise on a Splunk trial or the free tutorial data.</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Advanced SPL: eventstats, streamstats, lookups, subsearches, tstats, performance tuning.</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Java/Spring Boot logging: JSON logs, MDC, HEC appender or collector. Build a small demo service and view its logs in Splunk.</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>.NET equivalents (Serilog, ILogger) and OpenTelemetry tracing.</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>Alerts, dashboards, tokens, Observability Cloud concepts. Build one dashboard with four panels.</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>Mock interview: answer sections 10.1 to 10.5 out loud, then rehearse two STAR stories where Splunk helped you solve a production incident.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="star-template-for-behavioural-questions">
+<h3>STAR Template for Behavioural Questions<a class="headerlink" href="#star-template-for-behavioural-questions" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Situation</strong>: the production issue and its business impact.</p></li>
+<li><p><strong>Task</strong>: what you owned.</p></li>
+<li><p><strong>Action</strong>: the specific queries, dashboards or logging changes you made, and what they revealed.</p></li>
+<li><p><strong>Result</strong>: time to detect or resolve, errors reduced, alert noise reduced, cost saved.</p></li>
+</ul>
+<p>Have at least one story each for incident troubleshooting, improving logging or observability, and reducing noise or cost.</p>
+</section>
+</section>
+<section id="suggested-hands-on-practice">
+<h2>13. Suggested Hands-On Practice<a class="headerlink" href="#suggested-hands-on-practice" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Run Splunk locally (the <code class="docutils literal notranslate"><span class="pre">splunk/splunk</span></code> Docker image works) and enable HEC.</p></li>
+<li><p>Create a Spring Boot REST service that logs JSON with <code class="docutils literal notranslate"><span class="pre">traceId</span></code> and <code class="docutils literal notranslate"><span class="pre">correlationId</span></code>, and send the logs to HEC.</p></li>
+<li><p>Create a small ASP.NET Core API with Serilog sending to the same HEC.</p></li>
+<li><p>Generate load and write queries for error rate, p95 latency and top exceptions.</p></li>
+<li><p>Build a dashboard with a service dropdown token, and an alert with throttling.</p></li>
+<li><p>Attach the Splunk OTel Java agent and view traces in an Observability Cloud trial.</p></li>
+</ol>
+<p>Good luck with the preparation.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-these-notes">1. How to Use These Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#splunk-fundamentals">2. Splunk Fundamentals</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-splunk-does">2.1 What Splunk Does</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-architecture">2.2 Core Architecture</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-pipeline">2.3 Data Pipeline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-terms">2.4 Important Terms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#config-files-you-should-recognise">2.5 Config Files You Should Recognise</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spl-essentials">3. SPL Essentials</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#search-anatomy">3.1 Search Anatomy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#search-performance-rules-interview-favourite">3.2 Search Performance Rules (Interview Favourite)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commands-you-must-know">3.3 Commands You Must Know</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#handy-eval-functions">3.4 Handy Eval Functions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-modifiers">3.5 Time Modifiers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subsearch-gotchas">3.6 Subsearch Gotchas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logging-from-java-and-spring-boot">4. Logging From Java and Spring Boot</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#principles">4.1 Principles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#three-ways-to-get-logs-into-splunk">4.2 Three Ways to Get Logs Into Splunk</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spring-boot-structured-logging">4.3 Spring Boot Structured Logging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#direct-hec-appender-example-logback">4.4 Direct HEC Appender Example (Logback)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlation-mdc-trace-ids-and-filters">4.5 Correlation: MDC, Trace IDs and Filters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics-and-traces-beyond-logs">4.6 Metrics and Traces Beyond Logs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logging-from-net-microsoft-stack">5. Logging From .NET (Microsoft Stack)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#options">5.1 Options</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#serilog-example">5.2 Serilog Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mapping-between-java-and-net-concepts">5.3 Mapping Between Java and .NET Concepts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#day-to-day-developer-use-cases-with-spl">6. Day-to-Day Developer Use Cases With SPL</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-recent-errors-by-service">6.1 Find Recent Errors by Service</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#trace-a-single-request-end-to-end">6.2 Trace a Single Request End to End</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#latency-percentiles-per-endpoint">6.3 Latency Percentiles per Endpoint</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-rate-over-time">6.4 Error Rate Over Time</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-before-and-after-a-deployment">6.5 Compare Before and After a Deployment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-exceptions-that-did-not-exist-yesterday">6.6 New Exceptions That Did Not Exist Yesterday</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slow-downstream-dependency">6.7 Slow Downstream Dependency</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parse-unstructured-logs">6.8 Parse Unstructured Logs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#business-questions">6.9 Business Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alerts-dashboards-and-reports">7. Alerts, Dashboards and Reports</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alerts">7.1 Alerts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-alerting-practice">7.2 Good Alerting Practice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dashboards">7.3 Dashboards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-knowledge-objects">7.4 Other Knowledge Objects</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#splunk-observability-cloud-brief">8. Splunk Observability Cloud (Brief)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#security-governance-and-cost">9. Security, Governance and Cost</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interview-questions-and-model-answers">10. Interview Questions and Model Answers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture-and-concepts">10.1 Architecture and Concepts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spl">10.2 SPL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#java-spring-boot-and-net-usage">10.3 Java, Spring Boot and .NET Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operations-and-design">10.4 Operations and Design</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario-questions">10.5 Scenario Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-cheat-sheet">11. Quick Cheat Sheet</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seven-day-preparation-plan">12. Seven-Day Preparation Plan</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#star-template-for-behavioural-questions">STAR Template for Behavioural Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-hands-on-practice">13. Suggested Hands-On Practice</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Revannaswamy N
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Revannaswamy N.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
