@@ -53,7 +53,7 @@
     <link rel="icon" href="../../../../_static/favicon3.png"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Choreography" href="choreography.html" />
+    <link rel="next" title="CQRS" href="cqrs.html" />
     <link rel="prev" title="Design Patterns" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -241,7 +241,6 @@
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Microservices</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Design Patterns</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">Saga</a></li>
-<li class="toctree-l4"><a class="reference internal" href="choreography.html">Choreography</a></li>
 <li class="toctree-l4"><a class="reference internal" href="cqrs.html">CQRS</a></li>
 </ul>
 </details></li>
@@ -520,7 +519,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -536,6 +537,20 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem">The problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-styles">Two styles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-order-payment-inventory">Example: Order, Payment, Inventory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choreography-saga"><span class="xref myst">Choreography Saga</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><span class="xref myst">Choreography Saga</span></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -547,6 +562,62 @@ document.write(`
                   
   <section id="saga">
 <h1>Saga<a class="headerlink" href="#saga" title="Link to this heading">#</a></h1>
+<section id="the-problem">
+<h2>The problem<a class="headerlink" href="#the-problem" title="Link to this heading">#</a></h2>
+<p>In a monolith, “place order, charge card, reserve stock” is one <code class="docutils literal notranslate"><span class="pre">&#64;Transactional</span></code> method. In microservices each service owns its database, so there is no single ACID transaction across them.</p>
+<p>A <strong>saga</strong> replaces one distributed transaction with a <strong>sequence of local transactions</strong>. Each step commits in its own service and triggers the next. If a step fails, the saga runs <strong>compensating transactions</strong> to undo the earlier steps.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Happy path:   Create Order → Charge Payment → Reserve Inventory → Approve Order
+
+Failure path: Create Order → Charge Payment → Reserve Inventory ✗
+                                  ↓ compensate
+              Reject Order ← Refund Payment
+</pre></div>
+</div>
+<p>Compensation is a new business action, not a rollback. A charge that already committed is undone by issuing a refund, not by erasing the row.</p>
+</section>
+<section id="two-styles">
+<h2>Two styles<a class="headerlink" href="#two-styles" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Choreography</p></th>
+<th class="head"><p>Orchestration</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Control</p></td>
+<td><p>Services react to each other’s events</p></td>
+<td><p>A central orchestrator sends commands</p></td>
+</tr>
+<tr class="row-odd"><td><p>Coupling</p></td>
+<td><p>Services must know which events to listen for</p></td>
+<td><p>Services only know the orchestrator’s commands</p></td>
+</tr>
+<tr class="row-even"><td><p>Visibility</p></td>
+<td><p>Flow is spread across services, harder to trace</p></td>
+<td><p>Flow lives in one place</p></td>
+</tr>
+<tr class="row-odd"><td><p>Best for</p></td>
+<td><p>2 to 4 steps, simple flows</p></td>
+<td><p>Longer or branching flows</p></td>
+</tr>
+<tr class="row-even"><td><p>Risk</p></td>
+<td><p>Cyclic dependencies, “event spaghetti”</p></td>
+<td><p>Orchestrator becomes a coordination bottleneck</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="example-order-payment-inventory">
+<h3>Example: Order, Payment, Inventory<a class="headerlink" href="#example-order-payment-inventory" title="Link to this heading">#</a></h3>
+</section>
+<section id="choreography-saga">
+<h3><a class="reference internal" href="saga/choreography.html"><span class="std std-doc">Choreography Saga</span></a><a class="headerlink" href="#choreography-saga" title="Link to this heading">#</a></h3>
+</section>
+<section id="id1">
+<h3><a class="reference internal" href="saga/choreography.html"><span class="std std-doc">Choreography Saga</span></a><a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+</section>
+</section>
 </section>
 
 
@@ -570,11 +641,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="choreography.html"
+       href="cqrs.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Choreography</p>
+        <p class="prev-next-title">CQRS</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -584,6 +655,27 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem">The problem</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-styles">Two styles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-order-payment-inventory">Example: Order, Payment, Inventory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choreography-saga"><span class="xref myst">Choreography Saga</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><span class="xref myst">Choreography Saga</span></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

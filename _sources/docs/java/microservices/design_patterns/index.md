@@ -5,8 +5,8 @@
 :caption: Topics
 
 saga
-choreography
 cqrs
+
 
 ```
 

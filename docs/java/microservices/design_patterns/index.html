@@ -241,7 +241,6 @@
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Microservices</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">Design Patterns</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="saga.html">Saga</a></li>
-<li class="toctree-l4"><a class="reference internal" href="choreography.html">Choreography</a></li>
 <li class="toctree-l4"><a class="reference internal" href="cqrs.html">CQRS</a></li>
 </ul>
 </details></li>
@@ -550,8 +549,16 @@ document.write(`
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Topics</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="saga.html">Saga</a></li>
-<li class="toctree-l1"><a class="reference internal" href="choreography.html">Choreography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="saga.html">Saga</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#the-problem">The problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#two-styles">Two styles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="saga.html#example-order-payment-inventory">Example: Order, Payment, Inventory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saga.html#choreography-saga"><span class="xref myst">Choreography Saga</span></a></li>
+<li class="toctree-l3"><a class="reference internal" href="saga.html#id1"><span class="xref myst">Choreography Saga</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="cqrs.html">CQRS</a></li>
 </ul>
 </div>
