@@ -54,7 +54,7 @@
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
     <link rel="next" title="Saga" href="saga.html" />
-    <link rel="prev" title="Microservices" href="../index.html" />
+    <link rel="prev" title="Multi Module Project" href="../multimoduleproject/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -236,9 +236,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../spring/spring-boot/features/swagger.html">Swagger/OpenAPI Documentation</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../spring/annotations.html">Annotations</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Microservices</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../multimoduleproject/index.html">Multi Module Project</a></li>
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">Design Patterns</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="saga.html">Saga</a></li>
 <li class="toctree-l4"><a class="reference internal" href="cqrs.html">CQRS</a></li>
@@ -550,13 +552,31 @@ document.write(`
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Topics</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="saga.html">Saga</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="saga.html#the-problem">The problem</a></li>
-<li class="toctree-l2"><a class="reference internal" href="saga.html#two-styles">Two styles</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="saga.html#example-order-payment-inventory">Example: Order, Payment, Inventory</a></li>
-<li class="toctree-l3"><a class="reference internal" href="saga.html#choreography-saga"><span class="xref myst">Choreography Saga</span></a></li>
-<li class="toctree-l3"><a class="reference internal" href="saga.html#id1"><span class="xref myst">Choreography Saga</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#the-problem-saga-solves">1. The problem Saga solves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#definition">2. Definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#the-two-coordination-styles">3. The two coordination styles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="saga.html#a-choreography-event-driven-no-central-brain">A. Choreography (event-driven, no central brain)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saga.html#b-orchestration-central-coordinator">B. Orchestration (central coordinator)</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#running-example-order-saga">4. Running example: Order Saga</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#choreography-implementation-spring-boot-kafka">5. Choreography implementation (Spring Boot + Kafka)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#orchestration-implementation">6. Orchestration implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#types-of-saga-transactions">7. Types of saga transactions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#the-hard-problems">8. The hard problems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="saga.html#atomic-update-db-publish-event-dual-write">8.1 Atomic “update DB + publish event” (dual write)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saga.html#idempotency">8.2 Idempotency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saga.html#lack-of-isolation-the-i-in-acid-is-gone">8.3 Lack of isolation (the “I” in ACID is gone)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saga.html#message-ordering">8.4 Message ordering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saga.html#failures-of-compensations">8.5 Failures of compensations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saga.html#timeouts-and-stuck-sagas">8.6 Timeouts and stuck sagas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="saga.html#observability">8.7 Observability</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#frameworks-and-tools">9. Frameworks and tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#when-to-use-and-when-not-to">10. When to use and when not to</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#best-practice-checklist">11. Best-practice checklist</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saga.html#questions-you-should-be-able-to-answer-at-the-10-year-level">12. Questions you should be able to answer at the 10-year level</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cqrs.html">CQRS</a></li>
@@ -577,12 +597,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="../multimoduleproject/index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Microservices</p>
+        <p class="prev-next-title">Multi Module Project</p>
       </div>
     </a>
     <a class="right-next"

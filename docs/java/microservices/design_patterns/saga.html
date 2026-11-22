@@ -236,9 +236,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../spring/spring-boot/features/swagger.html">Swagger/OpenAPI Documentation</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../spring/annotations.html">Annotations</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">Microservices</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../multimoduleproject/index.html">Multi Module Project</a></li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="index.html">Design Patterns</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">Saga</a></li>
 <li class="toctree-l4"><a class="reference internal" href="cqrs.html">CQRS</a></li>
@@ -542,13 +544,31 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem">The problem</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-styles">Two styles</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-order-payment-inventory">Example: Order, Payment, Inventory</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choreography-saga"><span class="xref myst">Choreography Saga</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><span class="xref myst">Choreography Saga</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-saga-solves">1. The problem Saga solves</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definition">2. Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-coordination-styles">3. The two coordination styles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-choreography-event-driven-no-central-brain">A. Choreography (event-driven, no central brain)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-orchestration-central-coordinator">B. Orchestration (central coordinator)</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-example-order-saga">4. Running example: Order Saga</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choreography-implementation-spring-boot-kafka">5. Choreography implementation (Spring Boot + Kafka)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orchestration-implementation">6. Orchestration implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-saga-transactions">7. Types of saga transactions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hard-problems">8. The hard problems</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atomic-update-db-publish-event-dual-write">8.1 Atomic “update DB + publish event” (dual write)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#idempotency">8.2 Idempotency</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lack-of-isolation-the-i-in-acid-is-gone">8.3 Lack of isolation (the “I” in ACID is gone)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#message-ordering">8.4 Message ordering</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#failures-of-compensations">8.5 Failures of compensations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timeouts-and-stuck-sagas">8.6 Timeouts and stuck sagas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observability">8.7 Observability</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#frameworks-and-tools">9. Frameworks and tools</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-and-when-not-to">10. When to use and when not to</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practice-checklist">11. Best-practice checklist</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#questions-you-should-be-able-to-answer-at-the-10-year-level">12. Questions you should be able to answer at the 10-year level</a></li>
 </ul>
             </nav>
         </div>
@@ -562,61 +582,398 @@ document.write(`
                   
   <section id="saga">
 <h1>Saga<a class="headerlink" href="#saga" title="Link to this heading">#</a></h1>
-<section id="the-problem">
-<h2>The problem<a class="headerlink" href="#the-problem" title="Link to this heading">#</a></h2>
-<p>In a monolith, “place order, charge card, reserve stock” is one <code class="docutils literal notranslate"><span class="pre">&#64;Transactional</span></code> method. In microservices each service owns its database, so there is no single ACID transaction across them.</p>
-<p>A <strong>saga</strong> replaces one distributed transaction with a <strong>sequence of local transactions</strong>. Each step commits in its own service and triggers the next. If a step fails, the saga runs <strong>compensating transactions</strong> to undo the earlier steps.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Happy path:   Create Order → Charge Payment → Reserve Inventory → Approve Order
-
-Failure path: Create Order → Charge Payment → Reserve Inventory ✗
-                                  ↓ compensate
-              Reject Order ← Refund Payment
+<section id="the-problem-saga-solves">
+<h2>1. The problem Saga solves<a class="headerlink" href="#the-problem-saga-solves" title="Link to this heading">#</a></h2>
+<p>In a monolith, <code class="docutils literal notranslate"><span class="pre">&#64;Transactional</span></code> gives you ACID across everything. In microservices with <strong>database-per-service</strong>, one business operation (e.g. “place order”) touches several databases:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Order DB  →  Payment DB  →  Inventory DB  →  Shipping DB
 </pre></div>
 </div>
-<p>Compensation is a new business action, not a rollback. A charge that already committed is undone by issuing a refund, not by erasing the row.</p>
+<p>You can’t wrap these in one local transaction. <strong>Two-Phase Commit (2PC/XA)</strong> is the classic answer, but it fails in practice:</p>
+<ul class="simple">
+<li><p>It holds locks across services, so throughput and availability suffer.</p></li>
+<li><p>The coordinator is a single point of failure.</p></li>
+<li><p>Kafka, MongoDB, most cloud services, and REST calls don’t support XA.</p></li>
+<li><p>It couples services at runtime (CAP: you’re choosing consistency over availability).</p></li>
+</ul>
+<p><strong>Saga</strong> trades atomicity for availability. It gives you <em>eventual consistency</em> through a sequence of local transactions plus compensating actions.</p>
 </section>
-<section id="two-styles">
-<h2>Two styles<a class="headerlink" href="#two-styles" title="Link to this heading">#</a></h2>
+<section id="definition">
+<h2>2. Definition<a class="headerlink" href="#definition" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p>A saga is a sequence of <strong>local transactions</strong>. Each one commits to its own database and triggers the next step. If a step fails, the saga runs <strong>compensating transactions</strong> to semantically undo the earlier steps.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T1 → T2 → T3 → T4          (happy path)
+T1 → T2 → T3(fails) → C2 → C1   (rollback by compensation)
+</pre></div>
+</div>
+<p>Key point: a compensation is <strong>not a rollback</strong>. T1 has already committed and may have been visible to others. C1 is a <em>new</em> business transaction (e.g. <code class="docutils literal notranslate"><span class="pre">cancelOrder</span></code>, <code class="docutils literal notranslate"><span class="pre">refundPayment</span></code>), not a database undo.</p>
+</section>
+<section id="the-two-coordination-styles">
+<h2>3. The two coordination styles<a class="headerlink" href="#the-two-coordination-styles" title="Link to this heading">#</a></h2>
+<section id="a-choreography-event-driven-no-central-brain">
+<h3>A. Choreography (event-driven, no central brain)<a class="headerlink" href="#a-choreography-event-driven-no-central-brain" title="Link to this heading">#</a></h3>
+<p>Each service listens for events, does its work, and publishes the next event.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>OrderService ──OrderCreated──▶ PaymentService ──PaymentCompleted──▶ InventoryService
+     ▲                              │                                     │
+     │◀────────PaymentFailed────────┘                                     │
+     │◀────────────────────InventoryFailed (→ PaymentService refunds)─────┘
+</pre></div>
+</div>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li><p>Loose coupling, no single point of failure</p></li>
+<li><p>Simple for 2-3 participants</p></li>
+<li><p>Natural fit with Kafka</p></li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li><p>The flow is implicit and scattered across services, so it is hard to see and debug</p></li>
+<li><p>Risk of cyclic dependencies between services</p></li>
+<li><p>Hard to answer “what state is order #123’s saga in?”</p></li>
+<li><p>Gets messy beyond about 4 steps</p></li>
+</ul>
+</section>
+<section id="b-orchestration-central-coordinator">
+<h3>B. Orchestration (central coordinator)<a class="headerlink" href="#b-orchestration-central-coordinator" title="Link to this heading">#</a></h3>
+<p>A dedicated orchestrator tells each participant what to do via commands and reacts to replies.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>              ┌──────────────────────┐
+              │  Order Saga          │
+              │  Orchestrator        │
+              └─┬─────┬──────┬───────┘
+     command    │     │      │    command
+       ┌────────▼┐ ┌──▼─────┐ ┌▼─────────┐
+       │ Payment │ │Inventory│ │ Shipping │
+       └─────────┘ └────────┘ └──────────┘
+</pre></div>
+</div>
+<p><strong>Pros</strong></p>
+<ul class="simple">
+<li><p>The flow lives in one place, so it is readable and testable</p></li>
+<li><p>Explicit saga state, easy monitoring and audit</p></li>
+<li><p>Participants don’t know about each other</p></li>
+<li><p>Handles complex flows (branching, timeouts, parallel steps)</p></li>
+</ul>
+<p><strong>Cons</strong></p>
+<ul class="simple">
+<li><p>The orchestrator is extra infrastructure and logic to build and keep available</p></li>
+<li><p>Risk of putting business logic in the orchestrator (“god service”)</p></li>
+</ul>
+<p><strong>Rule of thumb:</strong> choreography for simple flows with few participants, orchestration for anything with 4+ steps, branching, or compliance and audit needs.</p>
+</section>
+</section>
+<section id="running-example-order-saga">
+<h2>4. Running example: Order Saga<a class="headerlink" href="#running-example-order-saga" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p></p></th>
-<th class="head"><p>Choreography</p></th>
-<th class="head"><p>Orchestration</p></th>
+<tr class="row-odd"><th class="head"><p>Step</p></th>
+<th class="head"><p>Service</p></th>
+<th class="head"><p>Local transaction</p></th>
+<th class="head"><p>Compensation</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>Control</p></td>
-<td><p>Services react to each other’s events</p></td>
-<td><p>A central orchestrator sends commands</p></td>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Order</p></td>
+<td><p>Create order <code class="docutils literal notranslate"><span class="pre">PENDING</span></code></p></td>
+<td><p>Mark order <code class="docutils literal notranslate"><span class="pre">CANCELLED</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Coupling</p></td>
-<td><p>Services must know which events to listen for</p></td>
-<td><p>Services only know the orchestrator’s commands</p></td>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Payment</p></td>
+<td><p>Reserve/charge payment</p></td>
+<td><p>Refund payment</p></td>
 </tr>
-<tr class="row-even"><td><p>Visibility</p></td>
-<td><p>Flow is spread across services, harder to trace</p></td>
-<td><p>Flow lives in one place</p></td>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Inventory</p></td>
+<td><p>Reserve stock</p></td>
+<td><p>Release stock</p></td>
 </tr>
-<tr class="row-odd"><td><p>Best for</p></td>
-<td><p>2 to 4 steps, simple flows</p></td>
-<td><p>Longer or branching flows</p></td>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Shipping</p></td>
+<td><p>Schedule shipment</p></td>
+<td><p>Cancel shipment</p></td>
 </tr>
-<tr class="row-even"><td><p>Risk</p></td>
-<td><p>Cyclic dependencies, “event spaghetti”</p></td>
-<td><p>Orchestrator becomes a coordination bottleneck</p></td>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Order</p></td>
+<td><p>Mark order <code class="docutils literal notranslate"><span class="pre">CONFIRMED</span></code></p></td>
+<td><p>n/a</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<section id="example-order-payment-inventory">
-<h3>Example: Order, Payment, Inventory<a class="headerlink" href="#example-order-payment-inventory" title="Link to this heading">#</a></h3>
 </section>
-<section id="choreography-saga">
-<h3><a class="reference internal" href="saga/choreography.html"><span class="std std-doc">Choreography Saga</span></a><a class="headerlink" href="#choreography-saga" title="Link to this heading">#</a></h3>
+<section id="choreography-implementation-spring-boot-kafka">
+<h2>5. Choreography implementation (Spring Boot + Kafka)<a class="headerlink" href="#choreography-implementation-spring-boot-kafka" title="Link to this heading">#</a></h2>
+<p><strong>Events (immutable records):</strong></p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">OrderCreated</span><span class="p">(</span><span class="n">UUID</span><span class="w"> </span><span class="n">eventId</span><span class="p">,</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">customerId</span><span class="p">,</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">PaymentCompleted</span><span class="p">(</span><span class="n">UUID</span><span class="w"> </span><span class="n">eventId</span><span class="p">,</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">orderId</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">PaymentFailed</span><span class="p">(</span><span class="n">UUID</span><span class="w"> </span><span class="n">eventId</span><span class="p">,</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">reason</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">StockReservationFailed</span><span class="p">(</span><span class="n">UUID</span><span class="w"> </span><span class="n">eventId</span><span class="p">,</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">reason</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+</pre></div>
+</div>
+<p><strong>Order Service: create order and publish the event atomically:</strong></p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">OrderRepository</span><span class="w"> </span><span class="n">orders</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">OutboxRepository</span><span class="w"> </span><span class="n">outbox</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ObjectMapper</span><span class="w"> </span><span class="n">mapper</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Transactional</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">(</span><span class="n">PlaceOrderRequest</span><span class="w"> </span><span class="n">req</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Order</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orders</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">Order</span><span class="p">.</span><span class="na">pending</span><span class="p">(</span><span class="n">req</span><span class="p">));</span>
+<span class="w">        </span><span class="n">outbox</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">OutboxEvent</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<span class="w">            </span><span class="s">&quot;order-events&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">getId</span><span class="p">().</span><span class="na">toString</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">mapper</span><span class="p">.</span><span class="na">writeValueAsString</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">OrderCreated</span><span class="p">(</span>
+<span class="w">                </span><span class="n">UUID</span><span class="p">.</span><span class="na">randomUUID</span><span class="p">(),</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span><span class="w"> </span><span class="n">req</span><span class="p">.</span><span class="na">customerId</span><span class="p">(),</span><span class="w"> </span><span class="n">req</span><span class="p">.</span><span class="na">amount</span><span class="p">()))));</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Writing to an <strong>outbox table in the same transaction</strong> (see section 8) avoids the dual-write problem.</p>
+<p><strong>Payment Service: consume, act, publish the next event:</strong></p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Component</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PaymentSagaListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">PaymentService</span><span class="w"> </span><span class="n">paymentService</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ProcessedEventRepository</span><span class="w"> </span><span class="n">processed</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@KafkaListener</span><span class="p">(</span><span class="n">topics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;order-events&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">groupId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;payment-service&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Transactional</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onOrderCreated</span><span class="p">(</span><span class="n">OrderCreated</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">processed</span><span class="p">.</span><span class="na">existsById</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">eventId</span><span class="p">()))</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w">   </span><span class="c1">// idempotency</span>
+<span class="w">        </span><span class="n">processed</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ProcessedEvent</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">eventId</span><span class="p">()));</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">paymentService</span><span class="p">.</span><span class="na">charge</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">orderId</span><span class="p">(),</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">customerId</span><span class="p">(),</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">amount</span><span class="p">());</span>
+<span class="w">            </span><span class="n">outbox</span><span class="p">.</span><span class="na">publish</span><span class="p">(</span><span class="s">&quot;payment-events&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PaymentCompleted</span><span class="p">(</span><span class="n">UUID</span><span class="p">.</span><span class="na">randomUUID</span><span class="p">(),</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">orderId</span><span class="p">()));</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InsufficientFundsException</span><span class="w"> </span><span class="n">ex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">outbox</span><span class="p">.</span><span class="na">publish</span><span class="p">(</span><span class="s">&quot;payment-events&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PaymentFailed</span><span class="p">(</span><span class="n">UUID</span><span class="p">.</span><span class="na">randomUUID</span><span class="p">(),</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">orderId</span><span class="p">(),</span><span class="w"> </span><span class="n">ex</span><span class="p">.</span><span class="na">getMessage</span><span class="p">()));</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Order Service: compensation on failure:</strong></p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@KafkaListener</span><span class="p">(</span><span class="n">topics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;payment-events&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;inventory-events&quot;</span><span class="p">},</span><span class="w"> </span><span class="n">groupId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;order-service&quot;</span><span class="p">)</span>
+<span class="nd">@Transactional</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onFailure</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">PaymentFailed</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="w">            </span><span class="n">orders</span><span class="p">.</span><span class="na">cancel</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="na">orderId</span><span class="p">(),</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="na">reason</span><span class="p">());</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">StockReservationFailed</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="w">   </span><span class="n">orders</span><span class="p">.</span><span class="na">cancel</span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="na">orderId</span><span class="p">(),</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="na">reason</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The Payment Service also listens to <code class="docutils literal notranslate"><span class="pre">StockReservationFailed</span></code> to refund.</p>
 </section>
-<section id="id1">
-<h3><a class="reference internal" href="saga/choreography.html"><span class="std std-doc">Choreography Saga</span></a><a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<section id="orchestration-implementation">
+<h2>6. Orchestration implementation<a class="headerlink" href="#orchestration-implementation" title="Link to this heading">#</a></h2>
+<p>The orchestrator persists <strong>saga state</strong>, so it survives restarts.</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Entity</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderSaga</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Id</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">sagaId</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">UUID</span><span class="w"> </span><span class="n">orderId</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@Enumerated</span><span class="p">(</span><span class="n">EnumType</span><span class="p">.</span><span class="na">STRING</span><span class="p">)</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">SagaState</span><span class="w"> </span><span class="n">state</span><span class="p">;</span><span class="w">  </span><span class="c1">// STARTED, PAYMENT_PENDING, INVENTORY_PENDING,</span>
+<span class="w">                                                            </span><span class="c1">// COMPLETED, COMPENSATING, FAILED</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">failureReason</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@Version</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">version</span><span class="p">;</span><span class="w">                          </span><span class="c1">// optimistic locking</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Instant</span><span class="w"> </span><span class="n">updatedAt</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="nd">@Component</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderSagaOrchestrator</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">OrderSagaRepository</span><span class="w"> </span><span class="n">sagas</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">CommandPublisher</span><span class="w"> </span><span class="n">commands</span><span class="p">;</span><span class="w">   </span><span class="c1">// writes to outbox → Kafka</span>
+
+<span class="w">    </span><span class="nd">@Transactional</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">UUID</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">OrderSaga</span><span class="w"> </span><span class="n">saga</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sagas</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">OrderSaga</span><span class="p">.</span><span class="na">start</span><span class="p">(</span><span class="n">orderId</span><span class="p">));</span>
+<span class="w">        </span><span class="n">saga</span><span class="p">.</span><span class="na">moveTo</span><span class="p">(</span><span class="n">SagaState</span><span class="p">.</span><span class="na">PAYMENT_PENDING</span><span class="p">);</span>
+<span class="w">        </span><span class="n">commands</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="s">&quot;payment-commands&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ChargePayment</span><span class="p">(</span><span class="n">saga</span><span class="p">.</span><span class="na">getSagaId</span><span class="p">(),</span><span class="w"> </span><span class="n">orderId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@KafkaListener</span><span class="p">(</span><span class="n">topics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;saga-replies&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">groupId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;order-saga&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Transactional</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">onReply</span><span class="p">(</span><span class="n">SagaReply</span><span class="w"> </span><span class="n">reply</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">OrderSaga</span><span class="w"> </span><span class="n">saga</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sagas</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">reply</span><span class="p">.</span><span class="na">sagaId</span><span class="p">()).</span><span class="na">orElseThrow</span><span class="p">();</span>
+
+<span class="w">        </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">saga</span><span class="p">.</span><span class="na">getState</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="n">PAYMENT_PENDING</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reply</span><span class="p">.</span><span class="na">success</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">saga</span><span class="p">.</span><span class="na">moveTo</span><span class="p">(</span><span class="n">SagaState</span><span class="p">.</span><span class="na">INVENTORY_PENDING</span><span class="p">);</span>
+<span class="w">                    </span><span class="n">commands</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="s">&quot;inventory-commands&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReserveStock</span><span class="p">(</span><span class="n">saga</span><span class="p">.</span><span class="na">getSagaId</span><span class="p">(),</span><span class="w"> </span><span class="n">saga</span><span class="p">.</span><span class="na">getOrderId</span><span class="p">()));</span>
+<span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">fail</span><span class="p">(</span><span class="n">saga</span><span class="p">,</span><span class="w"> </span><span class="n">reply</span><span class="p">.</span><span class="na">reason</span><span class="p">());</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="n">INVENTORY_PENDING</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reply</span><span class="p">.</span><span class="na">success</span><span class="p">())</span><span class="w"> </span><span class="n">complete</span><span class="p">(</span><span class="n">saga</span><span class="p">);</span>
+<span class="w">                </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">saga</span><span class="p">.</span><span class="na">moveTo</span><span class="p">(</span><span class="n">SagaState</span><span class="p">.</span><span class="na">COMPENSATING</span><span class="p">);</span>
+<span class="w">                    </span><span class="n">commands</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="s">&quot;payment-commands&quot;</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RefundPayment</span><span class="p">(</span><span class="n">saga</span><span class="p">.</span><span class="na">getSagaId</span><span class="p">(),</span><span class="w"> </span><span class="n">saga</span><span class="p">.</span><span class="na">getOrderId</span><span class="p">()));</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="n">COMPENSATING</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">fail</span><span class="p">(</span><span class="n">saga</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Compensated: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">saga</span><span class="p">.</span><span class="na">getFailureReason</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For complex flows, model this with <strong>Spring State Machine</strong>, or use a workflow engine (section 9) instead of hand-rolling the switch.</p>
 </section>
+<section id="types-of-saga-transactions">
+<h2>7. Types of saga transactions<a class="headerlink" href="#types-of-saga-transactions" title="Link to this heading">#</a></h2>
+<p>Understanding this separates a good design from a naive one:</p>
+<ul class="simple">
+<li><p><strong>Compensable transactions</strong>: can be undone (create order, reserve stock).</p></li>
+<li><p><strong>Pivot transaction</strong>: the point of no return. If it succeeds, the saga runs to completion. It is often the step that cannot be compensated (e.g. charging a card through a gateway that doesn’t allow reversals, or sending an email).</p></li>
+<li><p><strong>Retriable transactions</strong>: come after the pivot and <em>must eventually succeed</em>, so you retry them indefinitely (idempotent). Examples: update the loyalty balance, send the notification.</p></li>
+</ul>
+<p>Design tip: order steps so the <strong>risky, hard-to-compensate steps come late</strong>, and the easily compensable ones come first.</p>
+</section>
+<section id="the-hard-problems">
+<h2>8. The hard problems<a class="headerlink" href="#the-hard-problems" title="Link to this heading">#</a></h2>
+<section id="atomic-update-db-publish-event-dual-write">
+<h3>8.1 Atomic “update DB + publish event” (dual write)<a class="headerlink" href="#atomic-update-db-publish-event-dual-write" title="Link to this heading">#</a></h3>
+<p>If you save to the DB and then call <code class="docutils literal notranslate"><span class="pre">kafkaTemplate.send()</span></code>, a crash between the two leaves the system inconsistent.</p>
+<p><strong>Solution: Transactional Outbox</strong></p>
+<ol class="arabic simple">
+<li><p>In the same local transaction, write the business data and an <code class="docutils literal notranslate"><span class="pre">outbox</span></code> row.</p></li>
+<li><p>A separate relay publishes outbox rows to Kafka, either by polling (<code class="docutils literal notranslate"><span class="pre">&#64;Scheduled</span></code>) or via <strong>CDC with Debezium</strong> (preferred at scale).</p></li>
+<li><p>This gives <em>at-least-once</em> delivery.</p></li>
+</ol>
+</section>
+<section id="idempotency">
+<h3>8.2 Idempotency<a class="headerlink" href="#idempotency" title="Link to this heading">#</a></h3>
+<p>At-least-once delivery means duplicates. Every participant must handle them:</p>
+<ul class="simple">
+<li><p>Store processed <code class="docutils literal notranslate"><span class="pre">eventId</span></code>/<code class="docutils literal notranslate"><span class="pre">messageId</span></code> in a <code class="docutils literal notranslate"><span class="pre">processed_events</span></code> table, inside the same transaction as the business change.</p></li>
+<li><p>Or use natural idempotency (<code class="docutils literal notranslate"><span class="pre">UPDATE</span> <span class="pre">...</span> <span class="pre">WHERE</span> <span class="pre">status</span> <span class="pre">=</span> <span class="pre">'PENDING'</span></code>, unique constraints on <code class="docutils literal notranslate"><span class="pre">(orderId,</span> <span class="pre">step)</span></code>).</p></li>
+<li><p>Compensations must be idempotent too: refunding twice must be harmless.</p></li>
+</ul>
+</section>
+<section id="lack-of-isolation-the-i-in-acid-is-gone">
+<h3>8.3 Lack of isolation (the “I” in ACID is gone)<a class="headerlink" href="#lack-of-isolation-the-i-in-acid-is-gone" title="Link to this heading">#</a></h3>
+<p>Other transactions can see intermediate saga state, so you get dirty reads, lost updates, and so on. These are the countermeasures from Chris Richardson’s <em>Microservices Patterns</em>:</p>
+<ul class="simple">
+<li><p><strong>Semantic lock</strong>: set a flag like <code class="docutils literal notranslate"><span class="pre">PENDING</span></code> or <code class="docutils literal notranslate"><span class="pre">APPROVAL_PENDING</span></code> so other flows know the record is mid-saga.</p></li>
+<li><p><strong>Commutative updates</strong>: design operations so order doesn’t matter (debit/credit instead of set balance).</p></li>
+<li><p><strong>Pessimistic view</strong>: reorder steps to reduce the dirty-read risk.</p></li>
+<li><p><strong>Reread value</strong>: verify the data hasn’t changed before overwriting (optimistic locking with <code class="docutils literal notranslate"><span class="pre">&#64;Version</span></code>).</p></li>
+<li><p><strong>Version file / by value</strong>: record operations and apply them in the right order, or choose the concurrency strategy by business risk.</p></li>
+</ul>
+</section>
+<section id="message-ordering">
+<h3>8.4 Message ordering<a class="headerlink" href="#message-ordering" title="Link to this heading">#</a></h3>
+<p>Kafka guarantees ordering only <strong>within a partition</strong>. Use <code class="docutils literal notranslate"><span class="pre">orderId</span></code> as the message key so all events of one saga go to the same partition.</p>
+</section>
+<section id="failures-of-compensations">
+<h3>8.5 Failures of compensations<a class="headerlink" href="#failures-of-compensations" title="Link to this heading">#</a></h3>
+<p>A compensation can fail too. Strategy:</p>
+<ul class="simple">
+<li><p>Retry with exponential backoff (Spring Retry / Resilience4j, or Kafka retry topics with <code class="docutils literal notranslate"><span class="pre">&#64;RetryableTopic</span></code>).</p></li>
+<li><p>After N attempts, send to a <strong>Dead Letter Topic</strong> and raise an alert for manual intervention.</p></li>
+<li><p>Never silently drop a failed compensation.</p></li>
+</ul>
+</section>
+<section id="timeouts-and-stuck-sagas">
+<h3>8.6 Timeouts and stuck sagas<a class="headerlink" href="#timeouts-and-stuck-sagas" title="Link to this heading">#</a></h3>
+<p>A participant that never replies leaves the saga hanging. Add a scheduler that scans for sagas stuck in a non-terminal state beyond a threshold and triggers compensation or an alert.</p>
+</section>
+<section id="observability">
+<h3>8.7 Observability<a class="headerlink" href="#observability" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Propagate a <strong>correlation/saga ID</strong> through all events and logs (MDC).</p></li>
+<li><p>Use Micrometer Tracing / OpenTelemetry with Zipkin or Jaeger.</p></li>
+<li><p>Expose a saga status endpoint (<code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/orders/{id}/saga</span></code>) for support teams.</p></li>
+<li><p>Monitor saga durations, failure rate, and compensation count.</p></li>
+</ul>
+</section>
+</section>
+<section id="frameworks-and-tools">
+<h2>9. Frameworks and tools<a class="headerlink" href="#frameworks-and-tools" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>When to use</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Hand-rolled (Spring Kafka + Outbox)</strong></p></td>
+<td><p>Full control, small number of sagas</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Spring State Machine</strong></p></td>
+<td><p>Explicit state/transition modelling inside the orchestrator</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Axon Framework</strong></p></td>
+<td><p>Built-in Saga support (<code class="docutils literal notranslate"><span class="pre">&#64;Saga</span></code>, <code class="docutils literal notranslate"><span class="pre">&#64;SagaEventHandler</span></code>), best with event sourcing and CQRS</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Eventuate Tram Saga</strong></p></td>
+<td><p>Richardson’s library, orchestration DSL with outbox built in</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Camunda / Zeebe</strong></p></td>
+<td><p>BPMN-based orchestration, visual modelling, business-visible workflows</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Temporal</strong></p></td>
+<td><p>Durable-execution workflows written as plain Java code; compensation via try/catch; very good for long-running sagas</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Netflix Conductor</strong></p></td>
+<td><p>JSON-defined workflows at large scale</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For new enterprise projects with complex flows, <strong>Temporal</strong> or <strong>Camunda</strong> often beat a hand-built orchestrator, because they handle retries, timers, persistence, and visibility for you.</p>
+</section>
+<section id="when-to-use-and-when-not-to">
+<h2>10. When to use and when not to<a class="headerlink" href="#when-to-use-and-when-not-to" title="Link to this heading">#</a></h2>
+<p><strong>Use Saga when</strong></p>
+<ul class="simple">
+<li><p>A business process spans multiple services with separate databases</p></li>
+<li><p>Eventual consistency is acceptable</p></li>
+<li><p>You need high availability and loose coupling</p></li>
+</ul>
+<p><strong>Avoid or reconsider when</strong></p>
+<ul class="simple">
+<li><p>Strong, immediate consistency is mandatory (e.g. core ledger postings). Consider keeping the data in one service.</p></li>
+<li><p>You find yourself needing a saga between two services that always change together. That is often a sign of <strong>wrong service boundaries</strong>.</p></li>
+<li><p>The business flow isn’t tolerant of intermediate states.</p></li>
+</ul>
+</section>
+<section id="best-practice-checklist">
+<h2>11. Best-practice checklist<a class="headerlink" href="#best-practice-checklist" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Prefer <strong>orchestration</strong> beyond about 3-4 steps, <strong>choreography</strong> for simple flows</p></li>
+<li><p>Use the <strong>Outbox pattern</strong> (with Debezium CDC at scale)</p></li>
+<li><p>Make <strong>every handler and compensation idempotent</strong></p></li>
+<li><p>Key Kafka messages by saga/aggregate ID</p></li>
+<li><p>Keep events as facts (<code class="docutils literal notranslate"><span class="pre">PaymentCompleted</span></code>), commands as intents (<code class="docutils literal notranslate"><span class="pre">ChargePayment</span></code>)</p></li>
+<li><p>Place the pivot transaction deliberately, and put retriable steps after it</p></li>
+<li><p>Version your event schemas (Avro/Protobuf with Schema Registry)</p></li>
+<li><p>Add timeouts, DLTs, and alerting for stuck sagas</p></li>
+<li><p>Return <code class="docutils literal notranslate"><span class="pre">202</span> <span class="pre">Accepted</span></code> with a status URL to clients, since the result is asynchronous</p></li>
+<li><p>Test failure paths: use Testcontainers (Kafka + DB) and inject failures at each step</p></li>
+</ul>
+</section>
+<section id="questions-you-should-be-able-to-answer-at-the-10-year-level">
+<h2>12. Questions you should be able to answer at the 10-year level<a class="headerlink" href="#questions-you-should-be-able-to-answer-at-the-10-year-level" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Why not 2PC? What are its limitations in a cloud-native setup?</p></li>
+<li><p>Choreography vs orchestration: how do you decide?</p></li>
+<li><p>How do you guarantee that a DB write and an event publish happen atomically?</p></li>
+<li><p>What happens if a compensating transaction fails?</p></li>
+<li><p>How do you deal with the lack of isolation in sagas?</p></li>
+<li><p>What is a pivot transaction, and how does it influence step ordering?</p></li>
+<li><p>How do you make consumers idempotent under at-least-once delivery?</p></li>
+<li><p>How would you monitor and debug a saga that’s stuck in production?</p></li>
+</ol>
+<p>If you’d like, I can build a full working example next: an Order/Payment/Inventory orchestrated saga with Spring Boot, Kafka (using the compose setup from earlier), and the outbox pattern.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/revanna7226/ms-design-patterns-saga-choreography">Saga Choreography | My GitHub Project</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Java-Techie-jt/saga-choreography-example">Saga Choreography | JavaTechie | GitHub Project</a></p></li>
+</ul>
+</div>
 </section>
 </section>
 
@@ -665,13 +1022,31 @@ Failure path: Create Order → Charge Payment → Reserve Inventory ✗
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem">The problem</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-styles">Two styles</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-order-payment-inventory">Example: Order, Payment, Inventory</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choreography-saga"><span class="xref myst">Choreography Saga</span></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><span class="xref myst">Choreography Saga</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-saga-solves">1. The problem Saga solves</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#definition">2. Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-coordination-styles">3. The two coordination styles</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-choreography-event-driven-no-central-brain">A. Choreography (event-driven, no central brain)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-orchestration-central-coordinator">B. Orchestration (central coordinator)</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-example-order-saga">4. Running example: Order Saga</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choreography-implementation-spring-boot-kafka">5. Choreography implementation (Spring Boot + Kafka)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#orchestration-implementation">6. Orchestration implementation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-saga-transactions">7. Types of saga transactions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-hard-problems">8. The hard problems</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atomic-update-db-publish-event-dual-write">8.1 Atomic “update DB + publish event” (dual write)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#idempotency">8.2 Idempotency</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lack-of-isolation-the-i-in-acid-is-gone">8.3 Lack of isolation (the “I” in ACID is gone)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#message-ordering">8.4 Message ordering</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#failures-of-compensations">8.5 Failures of compensations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timeouts-and-stuck-sagas">8.6 Timeouts and stuck sagas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observability">8.7 Observability</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#frameworks-and-tools">9. Frameworks and tools</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-to-use-and-when-not-to">10. When to use and when not to</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practice-checklist">11. Best-practice checklist</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#questions-you-should-be-able-to-answer-at-the-10-year-level">12. Questions you should be able to answer at the 10-year level</a></li>
 </ul>
   </nav></div>
 
